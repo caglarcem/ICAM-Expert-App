@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "icam-expert",
+  "private_key_id": "571b017e58b75679d2657c393be9bfd04329d98d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQD2VL/BhhEYHa17\nzQylczg56EMrN8btmlpKiLY5+dDHMHzFGkj+vpRldv4XaGteqbwvsCDfyv4UQJDO\nZJoTCp7NZTrOm4yWf593ukFywyY5HcGE7sOT9azdXT7CeUEEuWzxnPLAoocyryMU\nv1V2FMHvt2YCM/G71/yIfd4kYa9gZKs3NgVX4DTQjzzUYByzNfNRT2BJ53P1nz6f\nRkkEcqP8uUwdNaEHUqTZDPkkbb0hF66fsUSjnpuFGzMF5FDoapoXWa8ZmcP+HnuD\nQ+FB1XTGcjDTGGcqOsxV8jqzyqjNlFohEWz9z2bZc96sxnGdWmKNFhOZJ4G2f/mq\nCb3VyBy/AgMBAAECggEAAWMOxVcs53bbUDQiWxgf++t73VVuEE5rLbpBVGg8rbJv\nMWjpek22Zi/aVGVpHVpVTetu8/OfpJuMdS0J1QudQ0jLoPgtPXewfSsWTUAeCfpJ\n6aaygTXD6GcrAEtQe2dT3rRkhYMkwbtMtkQxhf2t7dyZfW+vb8BSkq4qvwexxhgo\nLpTS8sgdhoveX0XdmQ3Xm0jCWTLvmSJmVSYN9ftwGPJctyOKVDLnGKJ50UTpdKqQ\nuy1THiB62zscGmTAzaiQ/5UNILIoaj0m2lxTcmGmczy27L/eOFAqr5dSCgX6NfuP\nd2XRdlbBH0pRg3ilsohQPKdCsdQRQ832nbVC2ApPgQKBgQD/z6iIBA8p/upHNUgu\nAkd9aWE7b5RC5QwLvzUB8+nYM1CAjeynAYdCU+05AswfZC2w66TBVzm1dO+IXtSN\nbN3K5kKeJ79aStPEKmzeCFkIDssH4deXIHAXLpgf8KIV6eQiQsqbohmHCI6J09LH\n2tpAJuzoAXaimF94GfTvOM64/wKBgQD2g0yaC57gu902Cyf6ingP1aN40+I/lceZ\n3be0p3+4ycjE993P4kBtP1m2mHQEtUSZSSuHJdKGhiJqehEDt6a3gCUki6vaglXA\ntEsBWKNkeGfqLnLI+ZEgKW3JWmNhqOB4aunzPmwD3GJYdlNJM5O4RpigFW2C73x8\nPZu1bbDcQQKBgD7Q4kSMIqEgXK0hs1jA7IcqQlsS+ig3EG8uA7k4CPszFpiKwUr9\nQBaUf1MZkcA/nEyugKWNYrlhPpSRHMahrhDt2/v0LLPiXf/0nwkiqaIl58tGtOcC\nayP2KBrnvxV8eq3DEveGpZgYDNBheIflAOTx6gjKmzQwEHlwfknj/DdHAoGBAKrD\n49GmkSXPHfttGQG24FrfvMFbzhQMFtwgujyb958zsS+5IN/8NHM5elVCIMSOKXoi\nNNQHQGJOExM9ggHYO9ZMH+7EDoVs2iiG/JpvI6jau+l+yactMvpbmKDuS4AAc5cX\nQP9u03aNOVdciG9iGkeCKAJlNZqJeeu65d11ohnBAoGAYaEtDBdcCEGBgYK/Gi9G\nsS9XmAo7h6EoEt57DBWmpwnmaH+cMxAJG92bnsj5n/W9Rak+aRWryRpkWcv+bvx1\nWLTR5J1dOmazTlrtM1itFJ64qlQw435lXwrADuhCfclmIKGxaSJgKw28lt0A62LY\nwBkN1AAFMhOzH1c1tmIkxYE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "icam-expert-service-account@icam-expert.iam.gserviceaccount.com",
+  "client_id": "113572349593349808651",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/icam-expert-service-account%40icam-expert.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
