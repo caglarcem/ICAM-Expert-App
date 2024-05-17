@@ -52,7 +52,7 @@ jobs:
     build-backend:
         # Build node project
         executor: node/default
-        working_directory: ~/project
+        working_directory: ~/project/icam-expert-backend
         steps:
             - checkout:
                   path: ~/project
