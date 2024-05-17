@@ -4,7 +4,7 @@ version: 2.1
 orbs:
   node: circleci/node@5
 jobs:
-  test-node:
+  test-frontend:
     # Install node dependencies and run tests
     executor: node/default
     working_directory: ~/project/icam-expert-frontend
@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Run tests
           command: npm test --passWithNoTests
-  build-node:
+  build-frontend:
     # Build node project
     executor: node/default
     working_directory: ~/project/icam-expert-frontend
@@ -36,26 +36,49 @@ jobs:
           command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
       - store_artifacts:
           path: ~/artifacts
-          destination: node-build
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
+          destination: frontend-build
+  test-backend:
+    # Install node dependencies and run tests
+    executor: node/default
+    working_directory: ~/project/icam-expert-backend
     steps:
-      # Replace this with steps to deploy to users
+      - checkout:
+          path: ~/project
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Run tests
+          command: npm test --passWithNoTests
+  build-frontend:
+    # Build node project
+    executor: node/default
+    working_directory: ~/project/icam-expert-backend
+    steps:
+      - checkout:
+          path: ~/project
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: found jenkins config
-          command: ':'
+          command: npm run build
+      - run:
+          name: Create the ~/artifacts directory if it doesn't exist
+          command: mkdir -p ~/artifacts
+      # Copy output to artifacts dir
+      - run:
+          name: Copy artifacts
+          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+      - store_artifacts:
+          path: ~/artifacts
+          destination: backend-build
 workflows:
   build-and-test:
     jobs:
-      - test-node
-      - build-node:
+      - test-frontend
+      - build-frontend:
           requires:
-            - test-node
-    # - deploy:
-    #     requires:
-    #       - build-node
+            - test-frontend
+      - test-backend
+      - build-backend:
+          requires:
+            - test-backend
+      # - deploy - requires both builds
