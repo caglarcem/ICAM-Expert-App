@@ -25,4 +25,3 @@ WORKDIR /app/backend
 
 # Start the backend and frontend together
 CMD ["ts-node", "src/index.ts", "--env=production"]
-# CMD ["ts-node", "src/index.ts"]
