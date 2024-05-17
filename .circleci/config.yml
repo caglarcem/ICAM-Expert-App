@@ -2,83 +2,83 @@
 # Stacks detected: cicd:jenkins:icam-expert-frontend,deps:node:icam-expert-frontend
 version: 2.1
 orbs:
-  node: circleci/node@5
+    node: circleci/node@5
 jobs:
-  test-frontend:
-    # Install node dependencies and run tests
-    executor: node/default
-    working_directory: ~/project/icam-expert-frontend
-    steps:
-      - checkout:
-          path: ~/project
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Run tests
-          command: npm test --passWithNoTests
-  build-frontend:
-    # Build node project
-    executor: node/default
-    working_directory: ~/project/icam-expert-frontend
-    steps:
-      - checkout:
-          path: ~/project
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm run build
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: frontend-build
-  test-backend:
-    # Install node dependencies and run tests
-    executor: node/default
-    working_directory: ~/project/icam-expert-backend
-    steps:
-      - checkout:
-          path: ~/project
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Run tests
-          command: npm test --passWithNoTests
-  build-frontend:
-    # Build node project
-    executor: node/default
-    working_directory: ~/project/icam-expert-backend
-    steps:
-      - checkout:
-          path: ~/project
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm run build
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: backend-build
+    test-frontend:
+        # Install node dependencies and run tests
+        executor: node/default
+        working_directory: ~/project/icam-expert-frontend
+        steps:
+            - checkout:
+                  path: ~/project
+            - node/install-packages:
+                  pkg-manager: npm
+            - run:
+                  name: Run tests
+                  command: npm test --passWithNoTests
+    build-frontend:
+        # Build node project
+        executor: node/default
+        working_directory: ~/project/icam-expert-frontend
+        steps:
+            - checkout:
+                  path: ~/project
+            - node/install-packages:
+                  pkg-manager: npm
+            - run:
+                  command: npm run build
+            - run:
+                  name: Create the ~/artifacts directory if it doesn't exist
+                  command: mkdir -p ~/artifacts
+            # Copy output to artifacts dir
+            - run:
+                  name: Copy artifacts
+                  command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+            - store_artifacts:
+                  path: ~/artifacts
+                  destination: frontend-build
+    test-backend:
+        # Install node dependencies and run tests
+        executor: node/default
+        working_directory: ~/project/icam-expert-backend
+        steps:
+            - checkout:
+                  path: ~/project
+            - node/install-packages:
+                  pkg-manager: npm
+            - run:
+                  name: Run tests
+                  command: npm test --passWithNoTests
+    build-backend:
+        # Build node project
+        executor: node/default
+        working_directory: ~/project/icam-expert-backend
+        steps:
+            - checkout:
+                  path: ~/project
+            - node/install-packages:
+                  pkg-manager: npm
+            - run:
+                  command: npm run build
+            - run:
+                  name: Create the ~/artifacts directory if it doesn't exist
+                  command: mkdir -p ~/artifacts
+            # Copy output to artifacts dir
+            - run:
+                  name: Copy artifacts
+                  command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+            - store_artifacts:
+                  path: ~/artifacts
+                  destination: backend-build
 workflows:
-  build-and-test:
-    jobs:
-      - test-frontend
-      - build-frontend:
-          requires:
+    build-and-test:
+        jobs:
             - test-frontend
-      - test-backend
-      - build-backend:
-          requires:
+            - build-frontend:
+                  requires:
+                      - test-frontend
             - test-backend
-      # - deploy - requires both builds
+            - build-backend:
+                  requires:
+                      - test-backend
+            # - deploy - requires both builds
