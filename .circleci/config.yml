@@ -92,9 +92,9 @@ jobs:
             - run:
                   name: Build and Push application Docker image
                   command: |
-                      docker build -t $DOCKERHUB_USERNAME/icam-expert-backend:latest .
+                      docker build -t $DOCKERHUB_USERNAME/icam-expert-app:latest .
                       echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-                      docker push $DOCKERHUB_USERNAME/icam-expert-backend:latest
+                      docker push $DOCKERHUB_USERNAME/icam-expert-app:latest
 workflows:
     build-and-test:
         jobs:
