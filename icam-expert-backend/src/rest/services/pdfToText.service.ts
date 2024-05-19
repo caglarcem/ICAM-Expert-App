@@ -47,7 +47,7 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
     return textResult;
   } else {
     // Dev / Test - Mock
-    return mockAnswer;
+    return mockWitnessReport;
   }
 };
 
