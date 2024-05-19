@@ -1,6 +1,6 @@
 /**
- * Pre-start is where we want to place things that must run BEFORE the express 
- * server is started. This is useful for environment variables, command-line 
+ * Pre-start is where we want to place things that must run BEFORE the express
+ * server is started. This is useful for environment variables, command-line
  * arguments, and cron-jobs.
  */
 
@@ -9,13 +9,11 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { parse } from 'ts-command-line-args';
 
-
 // **** Types **** //
 
 interface IArgs {
   env: string;
 }
-
 
 // **** Setup **** //
 
@@ -28,10 +26,15 @@ const args = parse<IArgs>({
   },
 });
 
-// Set the env file
-const result2 = dotenv.config({
-  path: path.join(__dirname, `../env/${args.env}.env`),
-});
-if (result2.error) {
-  throw result2.error;
+// TODO add production.local for local test runs (check window.location?)
+console.log('current window location:', window.location);
+
+if (args.env !== 'production') {
+  // Set the env file. Not needed in prod since variables are set on the deployment server
+  const result2 = dotenv.config({
+    path: path.join(__dirname, `../env/${args.env}.env`),
+  });
+  if (result2.error) {
+    throw result2.error;
+  }
 }

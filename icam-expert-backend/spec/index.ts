@@ -4,13 +4,11 @@ import Jasmine from 'jasmine';
 import { parse } from 'ts-command-line-args';
 import logger from 'jet-logger';
 
-
 // **** Types **** //
 
 interface IArgs {
   testFile: string;
 }
-
 
 // **** Setup **** //
 
@@ -23,15 +21,15 @@ const result2 = dotenv.config({
 if (result2.error) {
   throw result2.error;
 }
+// TODO Add a test.local when tests need variables on the build server
 
-// Setup command line options. 
+// Setup command line options.
 const args = parse<IArgs>({
   testFile: {
     type: String,
     defaultValue: '',
   },
 });
-
 
 // ** Start Jasmine ** //
 
@@ -43,9 +41,7 @@ jasmine.exitOnCompletion = false;
 jasmine.loadConfig({
   random: true,
   spec_dir: 'spec',
-  spec_files: [
-    './tests/**/*.spec.ts',
-  ],
+  spec_files: ['./tests/**/*.spec.ts'],
   stopSpecOnExpectationFailure: false,
 });
 
