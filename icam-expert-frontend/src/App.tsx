@@ -72,7 +72,7 @@ const App: React.FC = () => {
 
       const apiBaseURL =
         process.env.REACT_APP_ICAM_API_URL ||
-        `${window.location.protocol}/${window.location.host}/api`;
+        `${window.location.protocol}//${window.location.host}/api`;
 
       console.log('API base url: ', apiBaseURL);
 
