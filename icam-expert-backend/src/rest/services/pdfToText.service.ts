@@ -52,6 +52,8 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
 };
 
 const convertStandardPdfToText = async (pdfFilePath: string): Promise<string | undefined> => {
+  console.log('Standard pdf conversion (digital, no handwritten)');
+
   try {
     // Load PDF file
     const pdfFile = fs.readFileSync(path.resolve(__dirname, pdfFilePath));
