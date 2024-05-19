@@ -26,14 +26,14 @@ const args = parse<IArgs>({
   },
 });
 
-// TODO add production.local for local test runss
+// TODO add production local for local test runss
 
-if (args.env !== 'production') {
-  // Set the env file. Not needed in prod since variables are set on the deployment server
-  const result2 = dotenv.config({
-    path: path.join(__dirname, `../env/${args.env}.env`),
-  });
-  if (result2.error) {
-    throw result2.error;
-  }
+// if (args.env !== 'production') {
+// Set the env file. Not needed in prod since variables are set on the deployment server
+const result2 = dotenv.config({
+  path: path.join(__dirname, `../env/${args.env}.env`),
+});
+if (result2.error) {
+  throw result2.error;
 }
+//}

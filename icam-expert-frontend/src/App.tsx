@@ -70,10 +70,14 @@ const App: React.FC = () => {
       // Sample Prompt: // 4
       //   'Study all the documents and report the discrepancies between what people think has happened.';
 
-      console.log('API URL: ', `${process.env.REACT_APP_ICAM_API_URL}`);
+      const apiBaseURL =
+        process.env.REACT_APP_ICAM_API_URL ||
+        `${window.location.protocol}/${window.location.host}/api`;
+
+      console.log('API base url: ', apiBaseURL);
 
       const response = await axios.post(
-        `${process.env.REACT_APP_ICAM_API_URL}/queryDocuments/report?prompt=${prompt}`,
+        `${apiBaseURL}/queryDocuments/report?prompt=${prompt}`,
         formData,
         {
           headers: {
