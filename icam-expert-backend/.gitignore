@@ -3,5 +3,5 @@ dist/
 **/**/*.log
 *DS_Store*
 *file-*
-env/
-.env
+env/development.env
+env/test.env
