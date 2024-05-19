@@ -26,8 +26,7 @@ const args = parse<IArgs>({
   },
 });
 
-// TODO add production.local for local test runs (check window.location?)
-console.log('current window location:', window.location);
+// TODO add production.local for local test runss
 
 if (args.env !== 'production') {
   // Set the env file. Not needed in prod since variables are set on the deployment server
