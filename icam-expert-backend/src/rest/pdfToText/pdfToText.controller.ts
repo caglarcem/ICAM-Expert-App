@@ -10,8 +10,6 @@ const getConvertedText = (request: IReq<{ filename: string }>, res: IRes) => {
   const targetPath = path.resolve(levelsUp, 'uploads');
   const pdfFilePath = path.join(targetPath, filename);
 
-  console.log('inside pdf to text convert');
-
   const text = convertHandwrittenPdfToTextByAzure(pdfFilePath);
 
   return res.status(HttpStatusCodes.OK).json({ text });

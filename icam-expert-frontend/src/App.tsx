@@ -80,8 +80,6 @@ const App: React.FC = () => {
         }
       );
 
-      console.log('Response: ', response);
-
       setReportResult(response.data);
     } catch (error) {
       console.error('Error uploading files:', error);

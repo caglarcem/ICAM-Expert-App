@@ -15,8 +15,6 @@ if (!fs.existsSync(docFolder)) {
 }
 
 const saveFiles = (req: Request, res: Response, next: () => void) => {
-  console.log('Entered save file');
-
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, docFolder);

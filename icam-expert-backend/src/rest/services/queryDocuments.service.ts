@@ -1,13 +1,14 @@
 import OpenAI from 'openai';
+import dotenv from 'dotenv';
 
-const OPENAI_API_KEY = 'sk-proj-F4RIw6eGGnFwr1qPRSwGT3BlbkFJCMESJ2T5nZbbF7qDy04p';
+dotenv.config();
 
 const queryMultipleDocumentsWithSingleAnswer = async (
   documents: string[],
   prompt: string
 ): Promise<string | undefined> => {
   try {
-    const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     // Call the OpenAI API using the client
     const chatCompletion = await openai.chat.completions.create({
