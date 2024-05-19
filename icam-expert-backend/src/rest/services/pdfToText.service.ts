@@ -8,10 +8,16 @@ import { error } from 'console';
 import { DocumentAnalysisClient, AzureKeyCredential } from '@azure/ai-form-recognizer';
 import { PrebuiltDocumentModel } from './prebuilt/prebuilt-document';
 
+dotenv.config();
+
 // Supports pdf/jpeg/png/tiff formats
 const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
-  const endpoint = 'https://icam-expert-document-intelligence.cognitiveservices.azure.com/';
-  const apiKey = '654c3920821841e8984789937357a22a';
+  const endpoint = process.env.AZURE_COGNITIVE_SERVICES_URL;
+  const apiKey = process.env.AZURE_COGNITIVE_SERVICES_API_KEY;
+
+  if (!endpoint || !apiKey) {
+    throw new Error('Azure cognitive services endpoint url or api key must be configured.');
+  }
 
   const readStream = fs.createReadStream(filePath);
 
@@ -25,12 +31,9 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
   let textResult = '';
 
   if (!keyValuePairs || keyValuePairs.length <= 0) {
-    console.log('No key-value pairs were extracted from the document.');
+    console.error('No key-value pairs were extracted from the document.');
   } else {
     for (const { key, value, confidence } of keyValuePairs) {
-      console.log('- Key  :', `"${key.content}"`);
-      console.log('  Value:', `"${value?.content ?? '<undefined>'}" (${confidence})`);
-
       textResult += `&& ${key.content}: ${value?.content ?? '<undefined>'}`;
     }
   }
@@ -51,8 +54,6 @@ const convertStandardPdfToText = async (pdfFilePath: string): Promise<string | u
     console.error('Error extracting text from PDF:', error);
   }
 };
-
-dotenv.config();
 
 const keyFilePath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
@@ -104,11 +105,9 @@ const convertPdfToPng = async (pdfFilePath: string): Promise<string | undefined>
     const pngOutputFilePath = `${pngOutputPath}/${pngFilename}`;
     fs.writeFileSync(pngOutputFilePath, concat_converted_result, { flag: 'w' });
 
-    console.log('Png saved successfully');
-
     return pngOutputFilePath;
   } else {
-    console.log('nothing in file');
+    console.error('nothing in file');
 
     return undefined;
   }
