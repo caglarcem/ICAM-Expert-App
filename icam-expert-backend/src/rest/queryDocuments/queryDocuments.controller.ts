@@ -64,15 +64,10 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     const pdfFilePath = path.join(levelsUp, docFolder, file.filename);
 
     try {
-      if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
-        const outputText = await convertHandwrittenPdfToTextByAzure(pdfFilePath);
+      const outputText = await convertHandwrittenPdfToTextByAzure(pdfFilePath);
 
-        if (outputText) {
-          documents.push(outputText);
-        }
-      } else {
-        // Dev / Test - Mock
-        documents.push(mockWitnessReport);
+      if (outputText) {
+        documents.push(outputText);
       }
     } catch (error) {
       console.error('Error processing file:', error);
@@ -116,14 +111,3 @@ const mockAnswer = `MOCK Response: After reviewing the documents, I have identif
 										These discrepancies highlight the importance of clear and accurate reporting in incidents to ensure that all details 
 										are correctly documented and understood for appropriate follow-up actions and preventative measures. Clarifying these 
 										discrepancies through further investigation and communication is essential for maintaining safety and compliance in open cut coal mining operations.`;
-
-const mockWitnessReport = `"Step by step description leading up to and including the event (specific locations, times, tasks carried out, communications):"
-  												"We had moved all equipment to the site in the R30, natural area, set up site and finished installing the PVC pre collor and 
-													diverter. Once the diventer was in place I moved the support track from the rear of the wig truck to the front of the vig truck and compressor. Once parked and stable
-													I helped the other offsider and the driller with installing the ##blooie like they went back to the support truck and 
-													connected the 2" water hose from the bean pump to the support track. I then climbed onto the rear of the truck to pull 
-													out the fuel nozzle from the reel when I heard the driller yell "shut it down" and heard the ring Shot down. I climbed
-													down from the truck and want to the deck where I saw the injured offsider so Iwent
-													to the ute to put up the tailgate and stort it so we could make our way to the ERT. After starting the ute went back 
-													to the support truck and shout it off while the driller shut of the compressor and Ept a clean rag for the injured 
-													offsider to hold over his finger. We then all got in the ute and I drove straight to the ERT."`;

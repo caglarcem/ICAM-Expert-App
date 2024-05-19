@@ -7,6 +7,8 @@ import pdftopic from 'pdftopic';
 import { error } from 'console';
 import { DocumentAnalysisClient, AzureKeyCredential } from '@azure/ai-form-recognizer';
 import { PrebuiltDocumentModel } from './prebuilt/prebuilt-document';
+import EnvVars from '@src/constants/EnvVars';
+import { NodeEnvs } from '@src/constants/misc';
 
 dotenv.config();
 
@@ -28,17 +30,25 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
   // example we won't show them here.
   const { keyValuePairs } = await poller.pollUntilDone();
 
-  let textResult = '';
+  if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
+    let textResult = '';
 
-  if (!keyValuePairs || keyValuePairs.length <= 0) {
-    console.error('No key-value pairs were extracted from the document.');
-  } else {
-    for (const { key, value, confidence } of keyValuePairs) {
-      textResult += `&& ${key.content}: ${value?.content ?? '<undefined>'}`;
+    if (!keyValuePairs || keyValuePairs.length <= 0) {
+      console.error('No key-value pairs were extracted from the document.');
+    } else {
+      for (const { key, value, confidence } of keyValuePairs) {
+        textResult += `&& ${key.content}: ${value?.content ?? '<undefined>'}`;
+      }
+      await fs.unlink(filePath, () => {
+        console.log(`File ${filePath} deleted`);
+      });
     }
-  }
 
-  return textResult;
+    return textResult;
+  } else {
+    // Dev / Test - Mock
+    return mockAnswer;
+  }
 };
 
 const convertStandardPdfToText = async (pdfFilePath: string): Promise<string | undefined> => {
@@ -66,16 +76,15 @@ const convertHandwrittenPdfToTextByCloudVision = async (pdfFilePath: string): Pr
     if (!pngOutputFilePath) throw error('PNG file is empty');
 
     // Perform document text detection on the PDF file
-    // TODO real
-    const client = new ImageAnnotatorClient({ keyFilename: keyFilePath });
+    if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
+      const client = new ImageAnnotatorClient({ keyFilename: keyFilePath });
 
-    const [result] = await client.documentTextDetection(pngOutputFilePath);
-    const fullText = result.fullTextAnnotation?.text || 'No text found';
-
-    // TODO mock
-    // const fullText = 'Converted PDF text blah blah';
-
-    return fullText;
+      const [result] = await client.documentTextDetection(pngOutputFilePath);
+      const fullText = result.fullTextAnnotation?.text || 'No text found';
+      return fullText;
+    } else {
+      return mockWitnessReport;
+    }
   } catch (err) {
     console.error('Error performing OCR:', err);
   }
@@ -114,3 +123,14 @@ const convertPdfToPng = async (pdfFilePath: string): Promise<string | undefined>
 };
 
 export { convertStandardPdfToText, convertHandwrittenPdfToTextByCloudVision, convertHandwrittenPdfToTextByAzure };
+
+const mockWitnessReport = `"Step by step description leading up to and including the event (specific locations, times, tasks carried out, communications):"
+  												"We had moved all equipment to the site in the R30, natural area, set up site and finished installing the PVC pre collor and 
+													diverter. Once the diventer was in place I moved the support track from the rear of the wig truck to the front of the vig truck and compressor. Once parked and stable
+													I helped the other offsider and the driller with installing the ##blooie like they went back to the support truck and 
+													connected the 2" water hose from the bean pump to the support track. I then climbed onto the rear of the truck to pull 
+													out the fuel nozzle from the reel when I heard the driller yell "shut it down" and heard the ring Shot down. I climbed
+													down from the truck and want to the deck where I saw the injured offsider so Iwent
+													to the ute to put up the tailgate and stort it so we could make our way to the ERT. After starting the ute went back 
+													to the support truck and shout it off while the driller shut of the compressor and Ept a clean rag for the injured 
+													offsider to hold over his finger. We then all got in the ute and I drove straight to the ERT."`;
