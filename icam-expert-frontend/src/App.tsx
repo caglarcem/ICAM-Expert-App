@@ -71,7 +71,7 @@ const App: React.FC = () => {
       //   'Study all the documents and report the discrepancies between what people think has happened.';
 
       const response = await axios.post(
-        `http://localhost:3000/api/queryDocuments/report?prompt=${prompt}`,
+        `${process.env.REACT_APP_ICAM_API_URL}/queryDocuments/report?prompt=${prompt}`,
         formData,
         {
           headers: {
