@@ -74,7 +74,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     }
   }
 
-  if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
+  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
     const answer = await queryMultipleDocumentsWithSingleAnswer(documents, prompt);
 
     if (!answer) return res.send('An error occured, please try again later.');

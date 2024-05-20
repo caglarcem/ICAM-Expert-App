@@ -30,12 +30,10 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
   app.use(morgan('dev'));
 }
 
-// Security
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
+  // Security
   app.use(helmet());
-}
 
-if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
   app.use(express.static(path.join(__dirname, '../../frontend/build')));
 
   app.get('/', function (req, res) {
