@@ -30,7 +30,7 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
   // example we won't show them here.
   const { keyValuePairs } = await poller.pollUntilDone();
 
-  if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
+  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
     let textResult = '';
 
     if (!keyValuePairs || keyValuePairs.length <= 0) {
@@ -78,7 +78,7 @@ const convertHandwrittenPdfToTextByCloudVision = async (pdfFilePath: string): Pr
     if (!pngOutputFilePath) throw error('PNG file is empty');
 
     // Perform document text detection on the PDF file
-    if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
+    if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
       const client = new ImageAnnotatorClient({ keyFilename: keyFilePath });
 
       const [result] = await client.documentTextDetection(pngOutputFilePath);
