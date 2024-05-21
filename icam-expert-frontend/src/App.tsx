@@ -11,13 +11,16 @@ import {
   Stack,
   InputLabel,
   CircularProgress,
+  Select,
+  MenuItem,
+  FormControl,
+  SelectChangeEvent,
 } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { UploadOutlined as UploadIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
 
 import './App.css';
-import Textarea from './components/common/textArea';
 
 const darkTheme = createTheme({
   palette: {
@@ -27,17 +30,20 @@ const darkTheme = createTheme({
 
 const App: React.FC = () => {
   const [files, setSelectedFiles] = useState<File[]>([]);
-  const [prompt, setPrompt] = useState<string>();
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const [reportResult, setReportResult] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false); // Added loading state
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
       setSelectedFiles(selectedFiles);
-
       setReportResult(undefined);
     }
+  };
+
+  const handleOptionChange = (e: SelectChangeEvent<string>) => {
+    setSelectedOption(e.target.value as string);
   };
 
   const handleSubmit = async () => {
@@ -46,17 +52,17 @@ const App: React.FC = () => {
       return;
     }
 
-    if (!prompt) {
-      alert('Please enter a prompt or question.');
+    if (!selectedOption) {
+      alert('Please select a query option.');
       return;
     }
 
-    setLoading(true); // Set loading state to true
+    setLoading(true);
 
     try {
-      await queryDocuments(prompt, files);
+      await queryDocuments(selectedOption, files);
     } finally {
-      setLoading(false); // Reset loading state whether success or error
+      setLoading(false);
     }
   };
 
@@ -66,9 +72,6 @@ const App: React.FC = () => {
       files.forEach(file => {
         formData.append('files', file);
       });
-
-      // Sample Prompt: // 4
-      //   'Study all the documents and report the discrepancies between what people think has happened.';
 
       const apiBaseURL =
         process.env.REACT_APP_ICAM_API_URL ||
@@ -120,11 +123,11 @@ const App: React.FC = () => {
 
             <Container>
               <Typography style={{ fontSize: '16px' }} gutterBottom>
-                Please select the PDF documents and enter your query or prompt.
+                Please select the PDF documents and choose your tool.
               </Typography>
               <Typography style={{ fontSize: '16px' }} gutterBottom>
-                An answer or comment will be generated based on all the
-                information in the documents holistically.
+                The result will be generated based on the information in all
+                documents holistically.
               </Typography>
             </Container>
 
@@ -153,11 +156,43 @@ const App: React.FC = () => {
               ))}
             </Box>
 
-            <Textarea
-              placeholder="Enter a prompt or query on all the selected documents..."
-              onChange={e => setPrompt(e.target.value)}
-              style={{ width: '100%', marginTop: '80px' }}
-            />
+            <FormControl
+              fullWidth
+              style={{
+                marginTop: '20px',
+                width: '100%',
+                maxWidth: '450px',
+                margin: '0 auto',
+              }}
+            >
+              <Select
+                value={selectedOption}
+                onChange={handleOptionChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}
+                sx={{ marginTop: '60px' }}
+              >
+                <MenuItem value="" disabled>
+                  Select the Tool
+                </MenuItem>
+                <MenuItem value="generate-follow-up-interview-questions">
+                  Generate Follow up Interview Questions
+                </MenuItem>
+                <MenuItem value="brief-description-of-the-event">
+                  Brief description of the Event
+                </MenuItem>
+                <MenuItem value="peepo-builder">PEEPO Builder</MenuItem>
+                <MenuItem value="timeline-builder">Timeline Builder</MenuItem>
+                <MenuItem value="icam-analysis">ICAM Analysis</MenuItem>
+                <MenuItem value="contributing-factors-analysis">
+                  Contributing Factors Analysis
+                </MenuItem>
+                <MenuItem value="root-cause-analysis">
+                  Root Cause Analysis
+                </MenuItem>
+                <MenuItem value="key-learnings">Key Learnings</MenuItem>
+              </Select>
+            </FormControl>
 
             <Button
               variant="contained"
@@ -165,7 +200,7 @@ const App: React.FC = () => {
               component="span"
               style={{ width: 'fit-content', margin: '40px auto' }}
               onClick={handleSubmit}
-              disabled={files.length === 0 || loading}
+              disabled={files.length === 0 || !selectedOption || loading}
             >
               SUBMIT
             </Button>
