@@ -6,8 +6,9 @@ import { convertHandwrittenPdfToTextByAzure } from '../services/pdfToText.servic
 import { queryMultipleDocumentsWithSingleAnswer } from '../services/queryDocuments.service';
 import EnvVars from '@src/constants/EnvVars';
 import { NodeEnvs } from '@src/constants/misc';
-import { config } from '../../appConfig';
+import config from '../../../appConfig';
 
+// TODO add to configuration as it's also used while converting to text
 const docFolder = config.appSettings.uploadFolder;
 
 if (!fs.existsSync(docFolder)) {
