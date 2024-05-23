@@ -51,8 +51,8 @@ const getQueryAnswer = async (req: Request, res: Response) => {
 
   // Uploaded succussfully
 
-  // Question / query from the client
-  const prompt = req.query.prompt as string;
+  // Tool name from the client
+  const toolName = req.query.tool as string;
 
   // Convert the handwritten pdf files to text files
   const documents: string[] = [];
@@ -73,7 +73,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
   }
 
   if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
-    const answer = await queryMultipleDocumentsWithSingleAnswer(documents, prompt);
+    const answer = await queryMultipleDocumentsWithSingleAnswer(documents, toolName);
 
     if (!answer) return res.send('An error occured, please try again later.');
 

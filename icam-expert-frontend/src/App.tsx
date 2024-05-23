@@ -43,7 +43,7 @@ const App: React.FC = () => {
   };
 
   const handleOptionChange = (e: SelectChangeEvent<string>) => {
-    setSelectedOption(e.target.value as string);
+    setSelectedOption(e.target.value);
   };
 
   const handleSubmit = async () => {
@@ -66,7 +66,7 @@ const App: React.FC = () => {
     }
   };
 
-  const queryDocuments = async (prompt: string, files: File[]) => {
+  const queryDocuments = async (tool: string, files: File[]) => {
     try {
       const formData = new FormData();
       files.forEach(file => {
@@ -80,7 +80,7 @@ const App: React.FC = () => {
       console.log('API base url: ', apiBaseURL);
 
       const response = await axios.post(
-        `${apiBaseURL}/queryDocuments/report?prompt=${prompt}`,
+        `${apiBaseURL}/queryDocuments/report?tool=${tool}`,
         formData,
         {
           headers: {

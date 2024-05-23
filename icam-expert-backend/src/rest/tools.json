@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Generate Follow up Interview Questions",
+    "name": "generate-follow-up-interview-questions",
+    "prompt": "Analyse the input, and prepare me follow up interview questions for individuals involved in the incident. Aim is to ensure all relevant information specific to the event is captured, any discrepancies are resolved."
+  },
+  {
+    "title": "Brief description of the Event",
+    "name": "brief-description-of-the-event",
+    "prompt": "Analyse and study the documents, to provide me a brief description of what happened."
+  },
+  {
+    "title": "PEEPO Builder",
+    "name": "peepo-builder",
+    "prompt": "Analyse the input, build a draft PEEPO for the type of the incident. Also include other possible PEEPO items that may be required to be investigated. List it in table format that can be easily copy pasted into excel."
+  },
+  {
+    "title": "Timeline Builder",
+    "name": "timeline-builder",
+    "prompt": "Analyse the input, build a draft timeline. Build it in table format that can be easily copy pasted into excel. Every column to be time, and rows to be the events."
+  },
+  {
+    "title": "ICAM Analysis",
+    "name": "icam-analysis",
+    "prompt": "Analyse the input. List Absent / Failed Defences, Individual /Team Actions, Task / Environmental Conditions, and Organisational factors in a table format which can be easily copy pasted into excel."
+  },
+  {
+    "title": "Contributing Factors Analysis",
+    "name": "contributing-factors-analysis",
+    "prompt": "Analyse the data and list all the contributing factors."
+  },
+  {
+    "title": "Root Cause Analysis",
+    "name": "root-cause-analysis",
+    "prompt": "What do you think the most likely root cause or root causes are?"
+  },
+  {
+    "title": "Key Learnings",
+    "name": "key-learnings",
+    "prompt": "What are the generic and high level learnings the organisation can learn from the findings above?"
+  }
+]
