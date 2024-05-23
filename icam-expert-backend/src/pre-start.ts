@@ -27,7 +27,7 @@ const args = parse<IArgs>({
 });
 
 if (args.env !== 'production') {
-  // Set the env file. Not needed in prod since variables are set on the deployment server
+  // Set the env file. Avoid in prod since it can override variables set on the deployment server
   const result2 = dotenv.config({
     path: path.join(__dirname, `../env/${args.env}.env`),
   });
