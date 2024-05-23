@@ -5,10 +5,11 @@
     "build": "npx ts-node build.ts",
     "lint": "npx eslint --ext .ts src/",
     "lint:tests": "npx eslint --ext .ts spec/",
-    "start": "node -r module-alias/register ./dist --env=production-local",
+    "start": "node -r module-alias/register ./dist --env=production",
     "dev": "nodemon",
     "test": "ts-node --files -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine.js",
-    "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec"
+    "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
+    "postbuild": "cp src/rest/tools.json dist/"
   },
   "nodemonConfig": {
     "watch": [

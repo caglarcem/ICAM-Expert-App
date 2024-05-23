@@ -1,14 +1,14 @@
 import * as fs from 'fs';
 import { Request, Response } from 'express';
 import multer, { Multer } from 'multer';
-import path, { parse } from 'path';
+import path from 'path';
 import { convertHandwrittenPdfToTextByAzure } from '../services/pdfToText.service';
 import { queryMultipleDocumentsWithSingleAnswer } from '../services/queryDocuments.service';
 import EnvVars from '@src/constants/EnvVars';
 import { NodeEnvs } from '@src/constants/misc';
+import { config } from '../../appConfig';
 
-// TODO add to configuration as it's also used while converting to text
-const docFolder = 'uploads';
+const docFolder = config.appSettings.uploadFolder;
 
 if (!fs.existsSync(docFolder)) {
   fs.mkdirSync(docFolder);
@@ -45,16 +45,14 @@ const saveFiles = (req: Request, res: Response, next: () => void) => {
 };
 
 const getQueryAnswer = async (req: Request, res: Response) => {
-  console.log('Entered get query answer');
-
   if (!req.files || req.files.length === 0) {
     return res.status(400).send('No file uploaded.');
   }
 
   // Uploaded succussfully
 
-  // Question / query from the client
-  const prompt = req.query.prompt as string;
+  // Tool name from the client
+  const toolName = req.query.tool as string;
 
   // Convert the handwritten pdf files to text files
   const documents: string[] = [];
@@ -75,15 +73,13 @@ const getQueryAnswer = async (req: Request, res: Response) => {
   }
 
   if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
-    const answer = await queryMultipleDocumentsWithSingleAnswer(documents, prompt);
+    const answer = await queryMultipleDocumentsWithSingleAnswer(documents, toolName);
 
     if (!answer) return res.send('An error occured, please try again later.');
 
     res.send(answer);
   } else {
     // Dev / Test - Mock
-    console.log('PROMPT: ', prompt);
-
     res.send(mockAnswer);
   }
 };

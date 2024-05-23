@@ -1,12 +1,36 @@
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
+import * as fs from 'fs';
+import path from 'path';
 
 dotenv.config();
 
+export interface Tool {
+  title: string;
+  name: string;
+  prompt: string;
+}
+
+const readTools = (filePath: string): Tool[] => {
+  const data = fs.readFileSync(filePath, 'utf8');
+  return JSON.parse(data) as Tool[];
+};
+
 const queryMultipleDocumentsWithSingleAnswer = async (
   documents: string[],
-  prompt: string
+  toolName: string
 ): Promise<string | undefined> => {
+  const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production-local';
+  const jsonFilePath = isProduction
+    ? path.join(__dirname, '../../', 'tools.json')
+    : path.join(__dirname, '../', 'tools.json');
+
+  const tool = readTools(jsonFilePath)?.find(tool => tool.name === toolName);
+
+  if (!tool) {
+    throw new Error('Requested tool not found.');
+  }
+
   try {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -15,9 +39,9 @@ const queryMultipleDocumentsWithSingleAnswer = async (
       messages: [
         {
           role: 'system',
-          content: `You are now an ICAM expert in open cut coal mining in queensland. 
-                    I will upload some evidence documents, please read and learn from them all.
-                    I am going to ask questions based on the information in the documents.`,
+          content: `You are the lead ICAM investigator for an incident happened at a queensland open cut coal mine. Your goal is to ensure data collected is sound, analysis is comprehensive. Aim of the ICAM is to ensure learnings are objectively determined, and S.M.A.R.T. actions are captured to prevent reoccurance. Analyse the data and answer my questions.`,
+          // TODO convert to csv and download
+          // in a format where the format can be copy pasted into an excel sheet.`,
         },
         {
           role: 'user',
@@ -27,7 +51,7 @@ const queryMultipleDocumentsWithSingleAnswer = async (
         },
         {
           role: 'user',
-          content: prompt,
+          content: tool.prompt,
         },
       ],
       model: 'gpt-3.5-turbo',
