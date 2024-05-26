@@ -3,16 +3,16 @@
     "configurations": [
         {
             "type": "node",
+            "cwd": "${workspaceFolder}/icam-expert-backend", // Set the working directory
             "request": "launch",
-            "name": "Launch Backend with Nodemon",
-            "preLaunchTask": "build",
+            "name": "Debug Backend",
+            "preLaunchTask": "task-build",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run", "dev"],
             "skipFiles": ["<node_internals>/**"],
             "console": "integratedTerminal",
-            "restart": true,
-            "cwd": "${workspaceFolder}/icam-expert-backend", // Set the correct working directory
-            "outFiles": ["${workspaceFolder}/icam-expert-backend/dist/**/*.js"],
+            "sourceMaps": true,
+            "outFiles": [],
             "env": {
                 "NODE_ENV": "development"
             }

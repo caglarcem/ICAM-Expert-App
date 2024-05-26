@@ -45,6 +45,8 @@ const saveFiles = (req: Request, res: Response, next: () => void) => {
 };
 
 const getQueryAnswer = async (req: Request, res: Response) => {
+  console.log('ENTERED GETQUERYANSWER');
+
   if (!req.files || req.files.length === 0) {
     return res.status(400).send('No file uploaded.');
   }

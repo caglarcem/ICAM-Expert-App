@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "task-build",
             "type": "shell",
             "command": "npx ts-node build.ts",
             "options": {
