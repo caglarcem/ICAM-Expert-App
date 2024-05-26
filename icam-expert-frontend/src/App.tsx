@@ -173,7 +173,7 @@ const App: React.FC = () => {
                 sx={{ marginTop: '60px' }}
               >
                 <MenuItem value="" disabled>
-                  Select the Tool
+                  Select investigation tool
                 </MenuItem>
                 <MenuItem value="generate-follow-up-interview-questions">
                   Generate Follow up Interview Questions
