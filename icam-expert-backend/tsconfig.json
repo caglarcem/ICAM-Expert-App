@@ -72,6 +72,6 @@
     },
     "useUnknownInCatchVariables": false
   },
-  "include": ["src/**/*.ts", "spec/**/*.ts", "build.ts"],
+  "include": ["src/**/*.ts", "src/rest/**/*.ts", "spec/**/*.ts", "build.ts"],
   "exclude": ["src/public/"]
 }

@@ -2,5 +2,5 @@
   "watch": ["icam-expert-backend/src"],
   "ext": "ts,json",
   "ignore": ["dist"],
-  "exec": "npx ts-node --files -r tsconfig-paths/register --source-maps icam-expert-backend/src/server.ts"
+  "exec": "npx ts-node --files -r tsconfig-paths/register --source-maps icam-expert-backend/src/**/*.ts"
 }
