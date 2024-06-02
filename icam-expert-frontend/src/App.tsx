@@ -19,6 +19,7 @@ import {
 import CssBaseline from '@mui/material/CssBaseline';
 import { UploadOutlined as UploadIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
+import PeepoAnalysisTable from './components/PeepoTable';
 
 import './App.css';
 
@@ -211,7 +212,12 @@ const App: React.FC = () => {
               </div>
             )}
 
-            <Typography>{reportResult}</Typography>
+            {/* Conditional rendering based on the selected option */}
+            {selectedOption === 'peepo-builder' && !loading && reportResult ? (
+              <PeepoAnalysisTable peepoAnalysis={reportResult} />
+            ) : (
+              <Typography>{reportResult}</Typography>
+            )}
           </Stack>
         </header>
       </div>
