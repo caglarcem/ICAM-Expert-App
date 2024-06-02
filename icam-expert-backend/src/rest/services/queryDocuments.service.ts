@@ -54,7 +54,7 @@ const queryMultipleDocumentsWithSingleAnswer = async (
           content: tool.prompt,
         },
       ],
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o',
     });
 
     // Extract and return the answer from the API response
