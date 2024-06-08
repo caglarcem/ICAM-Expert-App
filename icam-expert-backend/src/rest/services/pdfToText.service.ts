@@ -15,6 +15,9 @@ dotenv.config();
 // Supports pdf/jpeg/png/tiff formats
 const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
   if (![NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
+    await fs.unlink(filePath, () => {
+      console.log(`File ${filePath} deleted`);
+    });
     // Dev / Test
     return mockWitnessReport;
   }

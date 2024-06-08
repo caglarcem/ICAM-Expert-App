@@ -80,7 +80,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     res.send(answer);
   } else {
     // Dev / Test - Mock
-    res.send(mockAnswer2);
+    res.send(mockAnswer);
   }
 };
 
