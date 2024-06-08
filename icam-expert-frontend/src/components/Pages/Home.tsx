@@ -96,17 +96,6 @@ const Home: React.FC = () => {
           marginTop: '10px',
         }}
       >
-        <Typography
-          style={{
-            fontSize: '24px',
-            marginTop: '50px',
-            color: '#F9BF90',
-            fontWeight: '400',
-          }}
-        >
-          ICAM Expert
-        </Typography>
-
         <Container>
           <Typography style={{ fontSize: '16px' }} gutterBottom>
             Please select the PDF documents and choose your tool.

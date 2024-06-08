@@ -11,6 +11,17 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
   },
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h6: {
+      fontSize: '1.25rem',
+      fontWeight: 700,
+    },
+    body1: {
+      fontSize: '1rem',
+      fontWeight: 500,
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(

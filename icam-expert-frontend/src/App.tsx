@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Box, CssBaseline, Drawer } from '@mui/material';
 import Menu from './components/Menu/Menu';
 import Home from './components/Pages/Home';
-import Expert from './components/Pages/Expert';
+import Interview from './components/Pages/Interview';
 
 const drawerWidth = 240;
 
@@ -36,7 +36,7 @@ const App: React.FC = () => {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/expert" element={<Expert />} />
+          <Route path="/interview" element={<Interview />} />
         </Routes>
       </Box>
     </Box>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 
-const Expert: React.FC = () => {
+const Interview: React.FC = () => {
   return (
     <div>
       <Typography variant="h4">Hello world</Typography>
@@ -9,4 +9,4 @@ const Expert: React.FC = () => {
   );
 };
 
-export default Expert;
+export default Interview;
