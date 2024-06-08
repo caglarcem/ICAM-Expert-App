@@ -12,7 +12,7 @@
   {
     "title": "PEEPO Builder",
     "name": "peepo-builder",
-    "prompt": "Analyse the input, build a draft PEEPO for the type of the incident. Also include other possible PEEPO items that may be required to be investigated. List it in table format that can be easily copy pasted into excel."
+    "prompt": "Analyse the input, build a draft PEEPO for the type of the incident. Also include other possible PEEPO items that may be required to be investigated. Return the information in a table format, but expressed in plain text. Separate each table with ### in-between. Seperate each cell with --- and add *** at the end of each line, after the last column or after each row."
   },
   {
     "title": "Timeline Builder",
