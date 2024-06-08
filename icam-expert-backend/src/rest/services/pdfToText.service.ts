@@ -14,6 +14,11 @@ dotenv.config();
 
 // Supports pdf/jpeg/png/tiff formats
 const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
+  if (![NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
+    // Dev / Test
+    return mockWitnessReport;
+  }
+
   const endpoint = process.env.AZURE_COGNITIVE_SERVICES_URL;
   const apiKey = process.env.AZURE_COGNITIVE_SERVICES_API_KEY;
 
@@ -30,25 +35,20 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
   // example we won't show them here.
   const { keyValuePairs } = await poller.pollUntilDone();
 
-  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
-    let textResult = '';
+  let textResult = '';
 
-    if (!keyValuePairs || keyValuePairs.length <= 0) {
-      console.error('No key-value pairs were extracted from the document.');
-    } else {
-      for (const { key, value, confidence } of keyValuePairs) {
-        textResult += `&& ${key.content}: ${value?.content ?? '<undefined>'}`;
-      }
-      await fs.unlink(filePath, () => {
-        console.log(`File ${filePath} deleted`);
-      });
-    }
-
-    return textResult;
+  if (!keyValuePairs || keyValuePairs.length <= 0) {
+    console.error('No key-value pairs were extracted from the document.');
   } else {
-    // Dev / Test - Mock
-    return mockWitnessReport;
+    for (const { key, value, confidence } of keyValuePairs) {
+      textResult += `&& ${key.content}: ${value?.content ?? '<undefined>'}`;
+    }
+    await fs.unlink(filePath, () => {
+      console.log(`File ${filePath} deleted`);
+    });
   }
+
+  return textResult;
 };
 
 const convertStandardPdfToText = async (pdfFilePath: string): Promise<string | undefined> => {

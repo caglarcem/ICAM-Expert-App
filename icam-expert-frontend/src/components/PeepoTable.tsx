@@ -1,52 +1,79 @@
 import {
+  Container,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
+  Typography,
 } from '@mui/material';
 
-const PeepoAnalysisTable = ({ peepoAnalysis }: { peepoAnalysis: string }) => {
-  // Check if peepoAnalysis exists
-  if (!peepoAnalysis) {
-    return null; // Return null to render an empty container
-  }
+interface TableData {
+  header1: string;
+  header2: string;
+  data: string[][];
+}
 
-  // Parse the response text and extract the PEEPO analysis data
-  const parsePeepoAnalysis = (peepoAnalysis: string) => {
-    const rows = peepoAnalysis.split('###');
-    return rows.map(row => {
-      const columns = row.split('|').map(item => item.trim());
-      return columns.filter(column => column !== '');
+interface MUITableProps {
+  header1: string;
+  header2: string;
+  data: string[][];
+}
+
+const parseTextToTables = (text: string): TableData[] => {
+  const tables = text
+    .split('###')
+    .filter(Boolean)
+    .map(tableText => {
+      const [header, ...rows] = tableText.trim().split('***').filter(Boolean);
+      const [header1, header2] = header.split('---').map(cell => cell.trim());
+      const data = rows.map(row => row.split('---').map(cell => cell.trim()));
+      return { header1, header2, data };
     });
-  };
+  return tables;
+};
 
-  const peepoData = parsePeepoAnalysis(peepoAnalysis);
-
-  return (
-    <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Category</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Potential Items to Investigate</TableCell>
+const MUITable: React.FC<MUITableProps> = ({ header1, header2, data }) => (
+  <TableContainer component={Paper}>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>{header1}</TableCell>
+          <TableCell>{header2}</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {data.map((row, index) => (
+          <TableRow key={index}>
+            <TableCell>{row[0]}</TableCell>
+            <TableCell>{row[1]}</TableCell>
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {peepoData.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <TableCell key={cellIndex}>{cell}</TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
+
+interface AppProps {
+  peepoAnalysis: string;
+}
+
+const PeepoTable: React.FC<AppProps> = ({ peepoAnalysis }) => {
+  const tables = parseTextToTables(peepoAnalysis);
+  return (
+    <Container>
+      {tables.map((table, index) => (
+        <div key={index} style={{ marginBottom: '20px' }}>
+          <Typography variant="h6" gutterBottom>
+            {table.header1}
+          </Typography>
+          <MUITable {...table} />
+        </div>
+      ))}
+    </Container>
   );
 };
 
-export default PeepoAnalysisTable;
+export default PeepoTable;
