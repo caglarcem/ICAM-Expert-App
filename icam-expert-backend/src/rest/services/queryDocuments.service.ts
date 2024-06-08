@@ -25,6 +25,8 @@ const queryMultipleDocumentsWithSingleAnswer = async (
     ? path.join(__dirname, '../../', 'tools.json')
     : path.join(__dirname, '../', 'tools.json');
 
+  console.log('Documents to send to the AI generator: ', documents);
+
   const tool = readTools(jsonFilePath)?.find(tool => tool.name === toolName);
 
   if (!tool) {
