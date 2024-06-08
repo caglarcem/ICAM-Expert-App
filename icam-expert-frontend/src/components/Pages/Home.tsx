@@ -1,25 +1,21 @@
-import React, { useState, ChangeEvent } from 'react';
-import axios from 'axios';
+import { UploadOutlined as UploadIcon } from '@mui/icons-material';
 import {
   Button,
-  Container,
-  Grid,
-  Typography,
-  Input,
-  Stack,
-  InputLabel,
   CircularProgress,
-  Select,
-  MenuItem,
+  Container,
   FormControl,
+  Grid,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
   SelectChangeEvent,
-  List,
-  ListItem,
-  ListItemText,
+  Stack,
+  Typography,
 } from '@mui/material';
-import { UploadOutlined as UploadIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import React, { ChangeEvent, useState } from 'react';
 
 const Home: React.FC = () => {
   const [files, setSelectedFiles] = useState<File[]>([]);
