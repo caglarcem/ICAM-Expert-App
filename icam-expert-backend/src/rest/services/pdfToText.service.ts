@@ -25,30 +25,28 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
 
   const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginAnalyzeDocument(PrebuiltDocumentModel, readStream);
-
-  // `pages`, `tables` and `styles` are also available as in the "layout" example above, but for the sake of this
-  // example we won't show them here.
   const { keyValuePairs } = await poller.pollUntilDone();
 
-  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
-    let textResult = '';
+  let textResult = '';
 
+  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
     if (!keyValuePairs || keyValuePairs.length <= 0) {
       console.error('No key-value pairs were extracted from the document.');
     } else {
       for (const { key, value, confidence } of keyValuePairs) {
         textResult += `&& ${key.content}: ${value?.content ?? '<undefined>'}`;
       }
-      await fs.unlink(filePath, () => {
-        console.log(`File ${filePath} deleted`);
-      });
     }
-
-    return textResult;
   } else {
     // Dev / Test - Mock
-    return mockWitnessReport;
+    textResult = mockWitnessReport;
   }
+
+  await fs.unlink(filePath, () => {
+    console.log(`File ${filePath} deleted`);
+  });
+
+  return textResult;
 };
 
 const convertStandardPdfToText = async (pdfFilePath: string): Promise<string | undefined> => {

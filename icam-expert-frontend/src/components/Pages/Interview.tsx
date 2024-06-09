@@ -1,19 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
+import { useFileContext } from '../../context/FileProvider';
 
 const Interview: React.FC = () => {
-  const [files, setSelectedFiles] = useState<File[]>([]);
+  const { files } = useFileContext();
   const [reportResult, setReportResult] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFiles = Array.from(e.target.files);
-      setSelectedFiles(selectedFiles);
-      setReportResult(undefined);
-    }
-  };
 
   const handleSubmit = async () => {
     if (files.length === 0) {
@@ -77,6 +70,15 @@ const Interview: React.FC = () => {
         >
           SUBMIT
         </Button>
+      </Box>
+      <Box sx={{ marginTop: '16px' }}>
+        {loading && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress color="secondary" size="2rem" />
+          </div>
+        )}
+
+        <Typography sx={{ marginTop: '32px' }}>{reportResult}</Typography>
       </Box>
     </Box>
   );

@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { FileProvider } from './context/FileProvider';
 
 const lightTheme = createTheme({
   palette: {
@@ -31,9 +32,11 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={lightTheme}>
       <CssBaseline />
-      <Router>
-        <App />
-      </Router>
+      <FileProvider>
+        <Router>
+          <App />
+        </Router>
+      </FileProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
