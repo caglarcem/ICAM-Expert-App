@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 const Interview: React.FC = () => {
   return (
     <div>
-      <Typography variant="h4">Hello world</Typography>
+      <Typography variant="h4">My Interview</Typography>
     </div>
   );
 };
