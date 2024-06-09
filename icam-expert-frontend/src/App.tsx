@@ -39,9 +39,7 @@ const App: React.FC = () => {
         sx={{
           flexGrow: 1,
           bgcolor: 'background.default',
-          p: 3,
-          marginLeft: `${drawerWidth}px`,
-          marginRight: `${rightPanelWidth}px`, // Reserve space for the right panel
+          padding: '50px',
         }}
       >
         <Routes>

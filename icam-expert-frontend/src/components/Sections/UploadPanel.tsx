@@ -24,9 +24,9 @@ const UploadPanel: React.FC = () => {
       <InputLabel htmlFor="fileInput">
         <Button
           sx={{
-            backgroundColor: '#949494',
+            backgroundColor: '#36A137',
             '&:hover': {
-              backgroundColor: '#757575',
+              backgroundColor: '#008009',
             },
           }}
           variant="contained"
@@ -38,7 +38,7 @@ const UploadPanel: React.FC = () => {
       </InputLabel>
       <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
         {files.map((file, index) => (
-          <Typography key={index} variant="body2">
+          <Typography key={index} variant="body2" sx={{ color: '#5c5c5c' }}>
             {file.name}
           </Typography>
         ))}
