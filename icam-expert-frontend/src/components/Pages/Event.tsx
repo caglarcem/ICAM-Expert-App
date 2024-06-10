@@ -1,11 +1,12 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Event: React.FC = () => {
   return (
-    <div>
-      <Typography variant="h4">My event</Typography>
-    </div>
+    <IcamToolsBaseComponent
+      description="Generates brief event description based on the event debrief, witness statements, and other provided documents. Select Files and press submit."
+      apiEndpoint="/queryDocuments/report?tool=brief-description-of-the-event"
+    />
   );
 };
 
