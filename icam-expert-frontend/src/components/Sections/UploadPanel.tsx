@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from 'react';
-import { Box, Button, Typography, Input, InputLabel } from '@mui/material';
 import { UploadOutlined as UploadIcon } from '@mui/icons-material';
+import { Box, Button, InputLabel, Typography } from '@mui/material';
+import React, { ChangeEvent } from 'react';
 import { useFileContext } from '../../context/FileProvider';
 
 const UploadPanel: React.FC = () => {
