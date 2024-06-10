@@ -53,7 +53,10 @@ const Interview: React.FC = () => {
 
   return (
     <Box>
-      <Typography sx={{ fontSize: '16px', color: '#666666' }}>
+      <Typography
+        sx={{ fontSize: '16px', color: '#666666' }}
+        data-testid="interview-description"
+      >
         Generates follow up interview questions based on the event debrief,
         witness statements and other provided documents. Select Files and press
         submit.
@@ -67,6 +70,7 @@ const Interview: React.FC = () => {
           component="span"
           onClick={handleSubmit}
           disabled={files.length === 0 || loading}
+          data-testid="submit-button"
         >
           SUBMIT
         </Button>
@@ -74,11 +78,17 @@ const Interview: React.FC = () => {
       <Box sx={{ marginTop: '16px' }}>
         {loading && (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <CircularProgress color="secondary" size="2rem" />
+            <CircularProgress
+              color="secondary"
+              size="2rem"
+              data-testid="loading-spinner"
+            />
           </div>
         )}
 
-        <Typography sx={{ marginTop: '32px' }}>{reportResult}</Typography>
+        <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
+          {reportResult}
+        </Typography>
       </Box>
     </Box>
   );

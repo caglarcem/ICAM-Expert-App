@@ -15,12 +15,14 @@ const UploadPanel: React.FC = () => {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Input
+      <input
         id="fileInput"
         style={{ display: 'none' }}
         type="file"
         onChange={handleFileChange}
-        inputProps={{ multiple: true, accept: '.pdf' }}
+        accept=".pdf"
+        multiple
+        data-testid="file-input"
       />
       <InputLabel htmlFor="fileInput">
         <Button
@@ -33,14 +35,19 @@ const UploadPanel: React.FC = () => {
           variant="contained"
           component="span"
           startIcon={<UploadIcon />}
+          data-testid="select-files-button"
         >
           Select Files
         </Button>
       </InputLabel>
       <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
         {files.map((file, index) => (
-          <Box sx={{ marginTop: '8px' }}>
-            <Typography key={index} variant="body2" sx={{ color: '#5c5c5c' }}>
+          <Box key={index} sx={{ marginTop: '8px' }}>
+            <Typography
+              variant="body2"
+              sx={{ color: '#5c5c5c' }}
+              data-testid={`file-name-${index}`}
+            >
               {file.name}
             </Typography>
           </Box>
