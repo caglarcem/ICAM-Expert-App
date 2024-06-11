@@ -1,11 +1,13 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Peepo: React.FC = () => {
   return (
-    <div>
-      <Typography variant="h4">My Peepo</Typography>
-    </div>
+    <IcamToolsBaseComponent
+      description="Analyses the input and builds a PEEPO for the type of the incident in a table format. Select Files and press submit."
+      apiEndpoint="/queryDocuments/report?tool=peepo-builder"
+      contextKey="peepo"
+    />
   );
 };
 

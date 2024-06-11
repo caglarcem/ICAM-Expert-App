@@ -1,11 +1,13 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Learnings: React.FC = () => {
   return (
-    <div>
-      <Typography variant="h4">My Learnings</Typography>
-    </div>
+    <IcamToolsBaseComponent
+      description="Generates generic and high level key learnings that the organisation can benefit from. Select Files and press submit."
+      apiEndpoint="/queryDocuments/report?tool=key-learnings"
+      contextKey="learnings"
+    />
   );
 };
 

@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useFileContext } from '../../../context/FileProvider';
+import { useReportResult } from '../../../context/ReportResultProvider';
 
 interface IcamToolsBaseProps {
   description: string;
   apiEndpoint: string;
+  contextKey: string;
 }
 
 const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
   description,
   apiEndpoint,
+  contextKey,
 }) => {
   const { files } = useFileContext();
-  const [reportResult, setReportResult] = useState<string>();
+  const { reportResults, setReportResult } = useReportResult();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
@@ -52,7 +55,7 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
         }
       );
 
-      setReportResult(response.data);
+      setReportResult(contextKey, response.data);
     } catch (error) {
       console.error('Error uploading files:', error);
       alert('Error uploading files.');
@@ -93,7 +96,7 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
         )}
 
         <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-          {reportResult}
+          {reportResults[contextKey]}
         </Typography>
       </Box>
     </Box>

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Rca: React.FC = () => {
   return (
-    <div>
-      <Typography variant="h4">My RCA</Typography>
-    </div>
+    <IcamToolsBaseComponent
+      description="Root cause analysis of the incident. Select Files and press submit."
+      apiEndpoint="/queryDocuments/report?tool=root-cause-analysis"
+      contextKey="rca"
+    />
   );
 };
 

@@ -6,6 +6,7 @@ const Interview: React.FC = () => {
     <IcamToolsBaseComponent
       description="Generates follow-up interview questions based on the event debrief, witness statements, and other provided documents. Select Files and press submit."
       apiEndpoint="/queryDocuments/report?tool=generate-follow-up-interview-questions"
+      contextKey="interview"
     />
   );
 };

@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { FileProvider } from './context/FileProvider';
+import { ReportResultProvider } from './context/ReportResultProvider';
 
 const lightTheme = createTheme({
   palette: {
@@ -33,9 +34,11 @@ root.render(
     <ThemeProvider theme={lightTheme}>
       <CssBaseline />
       <FileProvider>
-        <Router>
-          <App />
-        </Router>
+        <ReportResultProvider>
+          <Router>
+            <App />
+          </Router>
+        </ReportResultProvider>
       </FileProvider>
     </ThemeProvider>
   </React.StrictMode>
