@@ -50,9 +50,13 @@ const App: React.FC = () => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ display: { sm: 'none' } }}
+            sx={{
+              padding: theme.spacing(2),
+              marginBottom: theme.spacing(3),
+              fontSize: '2rem',
+            }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ fontSize: 'inherit' }} />
           </IconButton>
           <UploadPanel />
         </Box>
