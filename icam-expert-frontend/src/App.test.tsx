@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import App from './App';
 import { FileProvider } from './context/FileProvider';
+import { ReportResultProvider } from './context/ReportResultProvider';
 
 // Create a theme instance for testing
 const theme = createTheme();
@@ -20,13 +21,15 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/interview']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
     );
     const titleElement = screen.getByText(
-      /Generates follow up interview questions based on the event debrief, witness statements and other provided documents./i
+      /Generates follow-up interview questions based on the event debrief, witness statements, and other provided documents./i
     );
     expect(titleElement).toBeInTheDocument();
   });
@@ -36,7 +39,9 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
@@ -50,7 +55,9 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
@@ -64,7 +71,9 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
@@ -86,7 +95,9 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/interview']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
@@ -100,7 +111,9 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/interview']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
@@ -130,7 +143,9 @@ describe('App tests', () => {
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/interview']}>
           <FileProvider>
-            <App />
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
           </FileProvider>
         </MemoryRouter>
       </ThemeProvider>
