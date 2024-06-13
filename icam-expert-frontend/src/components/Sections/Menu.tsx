@@ -10,7 +10,6 @@ import {
 import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
-  useLocation,
 } from 'react-router-dom';
 import { styled } from '@mui/system';
 import { forwardRef } from 'react';
@@ -23,23 +22,21 @@ const CustomRouterLink = forwardRef<HTMLAnchorElement, RouterLinkProps>(
   }
 );
 
-interface StyledListItemButtonProps extends RouterLinkProps {
-  selected?: boolean;
-}
-
-const StyledListItemButton = styled((props: StyledListItemButtonProps) => (
+const StyledListItemButton = styled((props: RouterLinkProps) => (
   <ListItemButton component={CustomRouterLink} {...props} />
-))<{ selected?: boolean }>(({ theme, selected }) => ({
+))(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
   },
-  backgroundColor: selected ? theme.palette.action.selected : 'inherit',
 }));
 
-const Menu: React.FC = () => {
+interface MenuProps {
+  onMenuItemClick: () => void;
+}
+
+const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
   const theme = useTheme();
-  const location = useLocation();
 
   const menuItemCss = {
     fontFamily: 'Roboto, sans-serif',
@@ -86,7 +83,7 @@ const Menu: React.FC = () => {
           <StyledListItemButton
             key={item.path}
             to={item.path}
-            selected={location.pathname === item.path}
+            onClick={onMenuItemClick}
           >
             <ListItemText
               primary={item.title}

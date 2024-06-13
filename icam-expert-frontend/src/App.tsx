@@ -26,17 +26,24 @@ const rightPanelWidth = 300;
 
 const App: React.FC = () => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  //const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down('lg'));
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleMenuItemClick = () => {
+    if (isLargeScreen) {
+      setMobileOpen(false);
+    }
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <CssBaseline />
-      {isSmallScreen && (
+      {isLargeScreen && (
         <Box
           sx={{
             display: 'flex',
@@ -45,35 +52,39 @@ const App: React.FC = () => {
             padding: theme.spacing(1),
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{
-              padding: theme.spacing(2),
-              marginBottom: theme.spacing(3),
-              fontSize: '2rem',
-            }}
-          >
-            <MenuIcon sx={{ fontSize: 'inherit' }} />
-          </IconButton>
-          <UploadPanel />
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                padding: theme.spacing(2),
+                marginBottom: theme.spacing(3),
+                fontSize: '2rem',
+              }}
+            >
+              <MenuIcon sx={{ fontSize: 'inherit' }} />
+            </IconButton>
+            <Box sx={{ ml: 2 }}>
+              <UploadPanel />
+            </Box>
+          </Box>
         </Box>
       )}
       <Drawer
-        variant={isSmallScreen ? 'temporary' : 'permanent'}
-        open={isSmallScreen ? mobileOpen : true}
+        variant={isLargeScreen ? 'temporary' : 'permanent'}
+        open={isLargeScreen ? mobileOpen : true}
         onClose={handleDrawerToggle}
         ModalProps={{
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          display: { xs: 'block', sm: 'block' },
+          display: { xs: 'block', md: 'block' },
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
         }}
       >
-        <Menu />
+        <Menu onMenuItemClick={handleMenuItemClick} />
       </Drawer>
       <Box
         component="main"
@@ -81,10 +92,10 @@ const App: React.FC = () => {
           flexGrow: 1,
           bgcolor: 'background.default',
           padding: '50px',
-          marginLeft: { sm: `${drawerWidth}px` },
-          marginRight: { sm: `${rightPanelWidth}px` },
-          marginTop: { xs: '56px', sm: '0' },
-          width: { sm: `calc(100% - ${drawerWidth}px - ${rightPanelWidth}px)` },
+          marginLeft: { md: `${drawerWidth}px` },
+          marginRight: { md: `${rightPanelWidth}px` },
+          marginTop: { xs: '56px', md: '0' },
+          width: { md: `calc(100% - ${drawerWidth}px - ${rightPanelWidth}px)` },
         }}
       >
         <Routes>
@@ -99,7 +110,7 @@ const App: React.FC = () => {
           <Route path="/learnings" element={<Learnings />} />
         </Routes>
       </Box>
-      {!isSmallScreen && (
+      {!isLargeScreen && (
         <Drawer
           sx={{
             width: rightPanelWidth,
@@ -107,12 +118,21 @@ const App: React.FC = () => {
             '& .MuiDrawer-paper': {
               width: rightPanelWidth,
               boxSizing: 'border-box',
+              padding: theme.spacing(2),
             },
           }}
           variant="permanent"
           anchor="right"
         >
-          <UploadPanel />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              padding: 2,
+            }}
+          >
+            <UploadPanel />
+          </Box>
         </Drawer>
       )}
     </Box>
