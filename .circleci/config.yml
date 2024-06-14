@@ -110,7 +110,7 @@ workflows:
                   requires:
                       - build-frontend
                       - build-backend
-                  # filters:
+                  ## filters:
                   #     branches:
                   #         only:
                   #             - main
