@@ -3,6 +3,7 @@ import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useFileContext } from '../../../context/FileProvider';
 import { useReportResult } from '../../../context/ReportResultProvider';
+import PeepoAnalysisTable from '../../../components/PeepoTable';
 
 interface IcamToolsBaseProps {
   description: string;
@@ -94,10 +95,13 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
             />
           </div>
         )}
-
-        <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-          {reportResults[contextKey]}
-        </Typography>
+        {contextKey === 'peepo' ? (
+          <PeepoAnalysisTable peepoAnalysis={reportResults[contextKey]} />
+        ) : (
+          <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
+            {reportResults[contextKey]}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

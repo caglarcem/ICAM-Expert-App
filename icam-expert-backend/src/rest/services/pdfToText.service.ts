@@ -14,6 +14,14 @@ dotenv.config();
 
 // Supports pdf/jpeg/png/tiff formats
 const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
+  if (![NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
+    await fs.unlink(filePath, () => {
+      console.log(`File ${filePath} deleted`);
+    });
+    // Dev / Test
+    return mockWitnessReport;
+  }
+
   const endpoint = process.env.AZURE_COGNITIVE_SERVICES_URL;
   const apiKey = process.env.AZURE_COGNITIVE_SERVICES_API_KEY;
 
