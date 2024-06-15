@@ -1,229 +1,141 @@
-import React, { useState, ChangeEvent } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import {
-  Button,
-  Container,
-  Grid,
-  Typography,
-  ThemeProvider,
-  createTheme,
-  Input,
-  Stack,
-  InputLabel,
-  CircularProgress,
-  Select,
-  MenuItem,
-  FormControl,
-  SelectChangeEvent,
+  Box,
+  CssBaseline,
+  Drawer,
+  IconButton,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
-import { UploadOutlined as UploadIcon } from '@mui/icons-material';
-import { Box } from '@mui/system';
-import PeepoAnalysisTable from './components/PeepoTable';
+import MenuIcon from '@mui/icons-material/Menu';
+import Menu from './components/Sections/Menu';
+import Home from './components/Pages/Home';
+import Interview from './components/Pages/Interview';
+import Event from './components/Pages/Event';
+import Peepo from './components/Pages/Peepo';
+import Timeline from './components/Pages/Timeline';
+import Icam from './components/Pages/Icam';
+import Contributing from './components/Pages/Contributing';
+import Rca from './components/Pages/Rca';
+import Learnings from './components/Pages/Learnings';
+import UploadPanel from './components/Sections/UploadPanel';
 
-import './App.css';
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
+const drawerWidth = 240;
+const rightPanelWidth = 300;
 
 const App: React.FC = () => {
-  const [files, setSelectedFiles] = useState<File[]>([]);
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [reportResult, setReportResult] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const theme = useTheme();
+  //const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down('lg'));
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFiles = Array.from(e.target.files);
-      setSelectedFiles(selectedFiles);
-      setReportResult(undefined);
-    }
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  const handleOptionChange = (e: SelectChangeEvent<string>) => {
-    setSelectedOption(e.target.value);
-  };
-
-  const handleSubmit = async () => {
-    if (files.length === 0) {
-      alert('Please select one or more files.');
-      return;
-    }
-
-    if (!selectedOption) {
-      alert('Please select a query option.');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      await queryDocuments(selectedOption, files);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const queryDocuments = async (tool: string, files: File[]) => {
-    try {
-      const formData = new FormData();
-      files.forEach(file => {
-        formData.append('files', file);
-      });
-
-      const apiBaseURL =
-        process.env.REACT_APP_ICAM_API_URL ||
-        `${window.location.protocol}//${window.location.host}/api`;
-
-      console.log('API base url: ', apiBaseURL);
-
-      const response = await axios.post(
-        `${apiBaseURL}/queryDocuments/report?tool=${tool}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-
-      setReportResult(response.data);
-    } catch (error) {
-      console.error('Error uploading files:', error);
-      alert('Error uploading files.');
+  const handleMenuItemClick = () => {
+    if (isLargeScreen) {
+      setMobileOpen(false);
     }
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <CssBaseline />
-      <div className="App">
-        <header className="App-header">
-          <Stack
-            spacing={4}
-            style={{
-              maxWidth: '800px',
-              width: '100%',
-              margin: 'auto',
-              marginTop: '10px',
+      {isLargeScreen && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: theme.spacing(1),
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                padding: theme.spacing(2),
+                marginBottom: theme.spacing(3),
+                fontSize: '2rem',
+              }}
+            >
+              <MenuIcon sx={{ fontSize: 'inherit' }} />
+            </IconButton>
+            <Box sx={{ ml: 2 }}>
+              <UploadPanel />
+            </Box>
+          </Box>
+        </Box>
+      )}
+      <Drawer
+        variant={isLargeScreen ? 'temporary' : 'permanent'}
+        open={isLargeScreen ? mobileOpen : true}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: 'block', md: 'block' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+        }}
+      >
+        <Menu onMenuItemClick={handleMenuItemClick} />
+      </Drawer>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          bgcolor: 'background.default',
+          padding: '50px',
+          marginLeft: { md: `${drawerWidth}px` },
+          marginRight: { md: `${rightPanelWidth}px` },
+          marginTop: { xs: '56px', md: '0' },
+          width: { md: `calc(100% - ${drawerWidth}px - ${rightPanelWidth}px)` },
+        }}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/interview" element={<Interview />} />
+          <Route path="/event" element={<Event />} />
+          <Route path="/peepo" element={<Peepo />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/icam" element={<Icam />} />
+          <Route path="/contributing" element={<Contributing />} />
+          <Route path="/rca" element={<Rca />} />
+          <Route path="/learnings" element={<Learnings />} />
+        </Routes>
+      </Box>
+      {!isLargeScreen && (
+        <Drawer
+          sx={{
+            width: rightPanelWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: rightPanelWidth,
+              boxSizing: 'border-box',
+              padding: theme.spacing(2),
+            },
+          }}
+          variant="permanent"
+          anchor="right"
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              padding: 2,
             }}
           >
-            <Typography
-              style={{
-                fontSize: '24px',
-                marginTop: '50px',
-                color: '#F9BF90',
-                fontWeight: '400',
-              }}
-            >
-              ICAM Expert
-            </Typography>
-
-            <Container>
-              <Typography style={{ fontSize: '16px' }} gutterBottom>
-                Please select the PDF documents and choose your tool.
-              </Typography>
-              <Typography style={{ fontSize: '16px' }} gutterBottom>
-                The result will be generated based on the information in all
-                documents holistically.
-              </Typography>
-            </Container>
-
-            <Input
-              id="fileInput"
-              style={{ display: 'none' }}
-              type="file"
-              onChange={handleFileChange}
-              inputProps={{ multiple: true, accept: '.pdf' }}
-            />
-            <InputLabel htmlFor="fileInput">
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<UploadIcon />}
-              >
-                Select Files
-              </Button>
-            </InputLabel>
-
-            <Box style={{ display: 'flex', color: '#90caf9' }}>
-              {files.map((file, index) => (
-                <Grid item key={index} style={{ marginRight: '16px' }}>
-                  {file.name}
-                </Grid>
-              ))}
-            </Box>
-
-            <FormControl
-              fullWidth
-              style={{
-                marginTop: '20px',
-                width: '100%',
-                maxWidth: '450px',
-                margin: '0 auto',
-              }}
-            >
-              <Select
-                value={selectedOption}
-                onChange={handleOptionChange}
-                displayEmpty
-                inputProps={{ 'aria-label': 'Without label' }}
-                sx={{ marginTop: '60px' }}
-              >
-                <MenuItem value="" disabled>
-                  Select the Tool
-                </MenuItem>
-                <MenuItem value="generate-follow-up-interview-questions">
-                  Generate Follow up Interview Questions
-                </MenuItem>
-                <MenuItem value="brief-description-of-the-event">
-                  Brief description of the Event
-                </MenuItem>
-                <MenuItem value="peepo-builder">PEEPO Builder</MenuItem>
-                <MenuItem value="timeline-builder">Timeline Builder</MenuItem>
-                <MenuItem value="icam-analysis">ICAM Analysis</MenuItem>
-                <MenuItem value="contributing-factors-analysis">
-                  Contributing Factors Analysis
-                </MenuItem>
-                <MenuItem value="root-cause-analysis">
-                  Root Cause Analysis
-                </MenuItem>
-                <MenuItem value="key-learnings">Key Learnings</MenuItem>
-              </Select>
-            </FormControl>
-
-            <Button
-              variant="contained"
-              color="secondary"
-              component="span"
-              style={{ width: 'fit-content', margin: '40px auto' }}
-              onClick={handleSubmit}
-              disabled={files.length === 0 || !selectedOption || loading}
-            >
-              SUBMIT
-            </Button>
-
-            {loading && (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <CircularProgress color="secondary" />
-              </div>
-            )}
-
-            {/* Conditional rendering based on the selected option */}
-            {selectedOption === 'peepo-builder' && !loading && reportResult ? (
-              <PeepoAnalysisTable peepoAnalysis={reportResult} />
-            ) : (
-              <Typography>{reportResult}</Typography>
-            )}
-
-            {/* <Typography>{reportResult}</Typography> */}
-          </Stack>
-        </header>
-      </div>
-    </ThemeProvider>
+            <UploadPanel />
+          </Box>
+        </Drawer>
+      )}
+    </Box>
   );
 };
 

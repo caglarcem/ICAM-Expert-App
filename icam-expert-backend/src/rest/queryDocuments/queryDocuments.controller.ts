@@ -10,7 +10,9 @@ import { config } from '../../appConfig';
 
 const docFolder = config.appSettings.uploadFolder;
 
+console.log('checking if uploads folder exists');
 if (!fs.existsSync(docFolder)) {
+  console.log('Uploads folder does not exist, creating...');
   fs.mkdirSync(docFolder);
 }
 
@@ -20,8 +22,11 @@ const saveFiles = (req: Request, res: Response, next: () => void) => {
       cb(null, docFolder);
     },
     filename: function (req, file, cb) {
+      console.log('Checking if the file itself exists...');
+
       if (fs.existsSync(path.join(docFolder, file.originalname))) {
         // File exists. Add the suffix (1) to the filename and save the new one.
+        console.log('File exists. Adding an additional suffix and creating the new file...');
         const parsedFile = path.parse(file.originalname);
         cb(null, `${parsedFile.name}(1)${parsedFile.ext}`);
       } else {
@@ -34,9 +39,11 @@ const saveFiles = (req: Request, res: Response, next: () => void) => {
 
   upload.array('files')(req, res, err => {
     if (err instanceof multer.MulterError) {
+      console.log('Multer error: ', err.message);
       // A multer error occurred (e.g., file size limit exceeded)
       return res.status(400).send('File upload error: ' + err.message);
     } else if (err) {
+      console.log('Upload error: ', err.message);
       // An unknown error occurred
       return res.status(500).send('Internal server error.');
     }
@@ -45,11 +52,15 @@ const saveFiles = (req: Request, res: Response, next: () => void) => {
 };
 
 const getQueryAnswer = async (req: Request, res: Response) => {
+  console.log('Getting the query answer based on files');
   if (!req.files || req.files.length === 0) {
+    console.log('No files found.');
     return res.status(400).send('No file uploaded.');
   }
 
   // Uploaded succussfully
+
+  console.log('Upload successful.');
 
   // Tool name from the client
   const toolName = req.query.tool as string;
@@ -57,25 +68,40 @@ const getQueryAnswer = async (req: Request, res: Response) => {
   // Convert the handwritten pdf files to text files
   const documents: string[] = [];
 
+  console.log('Tool name:', toolName);
+
   for (const file of req.files as Express.Multer.File[]) {
     const levelsUp = path.resolve(__dirname, '..', '..', '..');
     const pdfFilePath = path.join(levelsUp, docFolder, file.filename);
 
     try {
+      console.log('PDF file path:', pdfFilePath);
+
       const outputText = await convertHandwrittenPdfToTextByAzure(pdfFilePath);
 
+      console.log('PDF converted to text');
+
       if (outputText) {
+        console.log('The converted output text has some content');
+
         documents.push(outputText);
       }
     } catch (error) {
-      console.error('Error processing file:', error);
+      console.log('Error processing file:', error);
     }
   }
 
   if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
+    console.log('Production mode... Querying all the documents...');
+
     const answer = await queryMultipleDocumentsWithSingleAnswer(documents, toolName);
 
-    if (!answer) return res.send('An error occured, please try again later.');
+    if (!answer) {
+      console.log('No answer...');
+
+      return res.send('An error occured, please try again later.');
+    }
+    console.log('There is an answer.');
 
     res.send(answer);
   } else {

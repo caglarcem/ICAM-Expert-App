@@ -81,6 +81,8 @@ interface AppProps {
 
 // Functional component to render PEEPO analysis tables
 const PeepoTable: React.FC<AppProps> = ({ peepoAnalysis }) => {
+  if (!peepoAnalysis) return <></>;
+
   const tables = parseTextToTables(peepoAnalysis);
   return (
     <Container>

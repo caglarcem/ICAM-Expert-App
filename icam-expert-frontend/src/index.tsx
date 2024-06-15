@@ -3,13 +3,44 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { FileProvider } from './context/FileProvider';
+import { ReportResultProvider } from './context/ReportResultProvider';
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+    h6: {
+      fontSize: '1.25rem',
+      fontWeight: 700,
+    },
+    body1: {
+      fontSize: '1rem',
+      fontWeight: 500,
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
+      <FileProvider>
+        <ReportResultProvider>
+          <Router>
+            <App />
+          </Router>
+        </ReportResultProvider>
+      </FileProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

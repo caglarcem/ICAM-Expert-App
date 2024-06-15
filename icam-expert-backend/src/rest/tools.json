@@ -17,7 +17,7 @@
   {
     "title": "Timeline Builder",
     "name": "timeline-builder",
-    "prompt": "Analyse the input, build a draft timeline. Build it in table format that can be easily copy pasted into excel. Every column to be time, and rows to be the events."
+    "prompt": "Analyse the input, build a timeline. Build it in table format that can be easily copy pasted into excel. Every column to be time, and rows to be the events."
   },
   {
     "title": "ICAM Analysis",
