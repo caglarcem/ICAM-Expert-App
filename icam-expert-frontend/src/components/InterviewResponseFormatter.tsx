@@ -1,5 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import { Box } from '@mui/system';
 
 interface InterviewResponseFormatterProps {
   text: string;
@@ -39,8 +40,12 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
           parts.push(
             <Typography
               key={`${index}-${lastIndex}`}
-              component="span"
-              style={{ whiteSpace: 'pre' }}
+              component="div"
+              style={{
+                whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word',
+                lineHeight: 2.5,
+              }}
             >
               {nonBoldText}
             </Typography>
@@ -50,8 +55,13 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
         parts.push(
           <Typography
             key={`${index}-${offset}`}
-            component="span"
-            style={{ fontWeight: 'bold' }}
+            component="div"
+            style={{
+              fontWeight: 'bold',
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word',
+              lineHeight: 1,
+            }}
           >
             {p1}
           </Typography>
@@ -75,26 +85,25 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
         parts.push(
           <Typography
             key={`${index}-${lastIndex}`}
-            component="span"
-            style={{ whiteSpace: 'pre' }}
+            component="div"
+            style={{
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word',
+              lineHeight: 1.2,
+            }}
           >
             {remainingText}
           </Typography>
         );
       }
 
-      return (
-        <div key={index}>
-          {parts}
-          <br />
-        </div>
-      );
+      return <Box key={index}>{parts}</Box>;
     });
 
     return parsedSegments;
   };
 
-  return <div>{parseText(text)}</div>;
+  return <Box>{parseText(text)}</Box>;
 };
 
 export default InterviewResponseFormatter;
