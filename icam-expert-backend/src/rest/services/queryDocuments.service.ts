@@ -39,13 +39,15 @@ const queryMultipleDocumentsWithSingleAnswer = async (
       messages: [
         {
           role: 'system',
-          content: `You are the lead ICAM investigator for an incident happened at a queensland open cut coal mine. Your goal is to ensure data collected is sound, analysis is comprehensive. Aim of the ICAM is to ensure learnings are objectively determined, and S.M.A.R.T. actions are captured to prevent reoccurance. Analyse the data and answer my questions.`,
-          // TODO convert to csv and download
-          // in a format where the format can be copy pasted into an excel sheet.`,
+          content: `Can you pls act as the lead ICAM investigator with relevant oeprational experience for an incident 
+										happened at a queensland open cut coal mine? Your goal is to ensure analysis is comprehensive. Aim 
+										of the ICAM is to ensure learnings are objectively determined. Analyse the data and answer my following 
+										questions. Please do not answer yet until I ask specific questions. On the following questions only use 
+										the information provided in this session. Thank you very much!`,
         },
         {
           role: 'user',
-          content: `Here is all the documents, the documents delimited by three ampersands (&&&) and their fields are delimited by two ampersands (&&). ${documents.join(
+          content: `Here is all the documents, the documents are delimited by three ampersands (&&&) and their fields are delimited by two ampersands (&&). ${documents.join(
             '&&&'
           )}`,
         },

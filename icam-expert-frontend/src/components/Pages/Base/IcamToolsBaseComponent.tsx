@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useFileContext } from '../../../context/FileProvider';
 import { useReportResult } from '../../../context/ReportResultProvider';
 import PeepoAnalysisTable from '../../../components/PeepoTable';
+import InterviewResponseFormatter from '../../InterviewResponseFormatter';
 
 interface IcamToolsBaseProps {
   description: string;
@@ -97,6 +98,11 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
         )}
         {contextKey === 'peepo' ? (
           <PeepoAnalysisTable peepoAnalysis={reportResults[contextKey]} />
+        ) : contextKey === 'interview' ? (
+          // Take the first half for the text response
+          <InterviewResponseFormatter
+            text={reportResults[contextKey]?.split('###')[0]}
+          />
         ) : (
           <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
             {reportResults[contextKey]}
