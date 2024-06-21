@@ -1,30 +1,24 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Typography,
-  CircularProgress,
-  Stack,
-} from '@mui/material';
+import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useFileContext } from '../../../context/FileProvider';
 import { useReportResult } from '../../../context/ReportResultProvider';
-import PeepoAnalysisTable from '../../../components/PeepoTable';
-import InterviewResponseFormatter from '../../formatters/InterviewResponseFormatter';
-import InterviewTable from '../../formatters/jsonToTable/InterviewTable';
-//import InterviewTable from '../../formatters/jsonToTable/InterviewTable';
 
 interface IcamToolsBaseProps {
   description: string;
   apiEndpoint: string;
   contextKey: string;
+  children: React.ReactNode;
 }
 
 const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
   description,
   apiEndpoint,
   contextKey,
+  children,
 }) => {
+  console.log('Buraya geliyor mu?');
+
   const { files } = useFileContext();
   const { reportResults, setReportResult } = useReportResult();
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,7 +61,6 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
         }
       );
 
-      // console.log('RESULTS: ', reportResults[contextKey]?.split('###'));
       setReportResult(contextKey, response.data);
     } catch (error) {
       console.error('Error uploading files:', error);
@@ -107,21 +100,7 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
             />
           </Box>
         )}
-        {contextKey === 'peepo' ? (
-          <PeepoAnalysisTable peepoAnalysis={reportResults[contextKey]} />
-        ) : contextKey === 'interview' ? (
-          // Take the first half for the text response
-          <Stack>
-            <InterviewResponseFormatter
-              text={reportResults[contextKey]?.split('###')[0]}
-            />
-            <InterviewTable text={reportResults[contextKey]?.split('###')[1]} />
-          </Stack>
-        ) : (
-          <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-            {reportResults[contextKey]}
-          </Typography>
-        )}
+        {children}
       </Box>
     </Box>
   );

@@ -9,6 +9,8 @@ interface InterviewResponseFormatterProps {
 const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
   text,
 }) => {
+  console.log('response formattera geliyor mu');
+
   const parseText = (input: string) => {
     if (!input) return <></>;
 
