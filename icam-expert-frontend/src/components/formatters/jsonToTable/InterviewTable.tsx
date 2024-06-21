@@ -22,8 +22,6 @@ interface InterviewTableProps {
 const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
   const [jsonData, setJsonData] = useState<FollowupInterview[]>([]);
 
-  //console.log('JSON INPUT: ', text);
-
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
     setJsonData(parsedData);
@@ -39,11 +37,7 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
       if (jsonStart !== -1 && jsonEnd !== -1) {
         const jsonString = sanitizedText.substring(jsonStart, jsonEnd + 1);
 
-        console.log('SANITIZED JSON STRING: ', jsonString);
-
         const jsonObject = JSON.parse(jsonString);
-
-        console.log('JSON object: ', jsonObject);
 
         return jsonObject;
       }
