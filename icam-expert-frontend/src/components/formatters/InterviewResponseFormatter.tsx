@@ -44,7 +44,7 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
               style={{
                 whiteSpace: 'pre-wrap',
                 wordWrap: 'break-word',
-                lineHeight: 2.5,
+                lineHeight: 1.5,
               }}
             >
               {nonBoldText}
@@ -60,7 +60,7 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
               fontWeight: 'bold',
               whiteSpace: 'pre-wrap',
               wordWrap: 'break-word',
-              lineHeight: 1,
+              lineHeight: 1.5,
             }}
           >
             {p1}

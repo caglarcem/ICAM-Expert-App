@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useFileContext } from '../../../context/FileProvider';
 import { useReportResult } from '../../../context/ReportResultProvider';
 import PeepoAnalysisTable from '../../../components/PeepoTable';
-import InterviewResponseFormatter from '../../InterviewResponseFormatter';
+import InterviewResponseFormatter from '../../formatters/InterviewResponseFormatter';
+//import InterviewTable from '../../formatters/jsonToTable/InterviewTable';
 
 interface IcamToolsBaseProps {
   description: string;
@@ -26,6 +27,8 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
       alert('Please select one or more files.');
       return;
     }
+
+    setReportResult(contextKey, '');
 
     setLoading(true);
 
@@ -57,6 +60,7 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
         }
       );
 
+      console.log('RESULTS: ', reportResults[contextKey]?.split('###'));
       setReportResult(contextKey, response.data);
     } catch (error) {
       console.error('Error uploading files:', error);
