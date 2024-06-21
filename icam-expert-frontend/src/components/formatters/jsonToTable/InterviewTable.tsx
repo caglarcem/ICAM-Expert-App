@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
   Box,
+  Typography,
 } from '@mui/material';
 
 interface FollowupInterview {
@@ -55,16 +56,26 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Questions</TableCell>
+                <TableCell style={{ backgroundColor: '#f0f0f0' }}>
+                  Name
+                </TableCell>
+                <TableCell style={{ backgroundColor: '#f0f0f0' }}>
+                  Questions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {jsonData.map((person, index) => (
                 <TableRow key={index}>
-                  <TableCell>{person.Name}</TableCell>
-                  <TableCell>
-                    <ul>
+                  <TableCell
+                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                  >
+                    {person.Name}
+                  </TableCell>
+                  <TableCell
+                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                  >
+                    <ul style={{ paddingInlineStart: '16px' }}>
                       {person.Questions?.map((question, qIndex) => (
                         <li key={qIndex}>{question}</li>
                       ))}
@@ -75,6 +86,11 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+      {jsonData.length === 0 && (
+        <Typography variant="body1" align="center">
+          No data available
+        </Typography>
       )}
     </Box>
   );
