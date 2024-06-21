@@ -56,10 +56,24 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell style={{ backgroundColor: '#f0f0f0' }}>
+                <TableCell
+                  style={{
+                    backgroundColor: '#f0f0f0',
+                    border: '1px solid #ddd',
+                    padding: '8px',
+                    lineHeight: '1.25',
+                  }}
+                >
                   Name
                 </TableCell>
-                <TableCell style={{ backgroundColor: '#f0f0f0' }}>
+                <TableCell
+                  style={{
+                    backgroundColor: '#f0f0f0',
+                    border: '1px solid #ddd',
+                    padding: '8px',
+                    lineHeight: '1.25',
+                  }}
+                >
                   Questions
                 </TableCell>
               </TableRow>
@@ -75,7 +89,13 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
                   <TableCell
                     style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
                   >
-                    <ul style={{ paddingInlineStart: '16px' }}>
+                    <ul
+                      style={{
+                        paddingInlineStart: '16px',
+                        marginBlockStart: '0px',
+                        marginBlockEnd: '0px',
+                      }}
+                    >
                       {person.Questions?.map((question, qIndex) => (
                         <li key={qIndex}>{question}</li>
                       ))}
