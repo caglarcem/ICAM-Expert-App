@@ -6,7 +6,9 @@ import PeepoAnalysisTable from '../formatters/jsonToTable/PeepoTable';
 const Peepo: React.FC = () => {
   const contextKey = 'peepo';
   const { reportResults } = useReportResult();
-  const peepoAnalysis = reportResults[contextKey];
+  const peepoAnalysis = JSON.stringify(reportResults[contextKey]);
+
+  console.log('PEEPO: ', peepoAnalysis);
 
   return (
     <IcamToolsBaseComponent
@@ -14,7 +16,7 @@ const Peepo: React.FC = () => {
       apiEndpoint="/queryDocuments/report?tool=peepo-builder"
       contextKey={contextKey}
     >
-      {peepoAnalysis && <PeepoAnalysisTable peepoAnalysis={peepoAnalysis} />}
+      {peepoAnalysis && <PeepoAnalysisTable text={peepoAnalysis} />}
     </IcamToolsBaseComponent>
   );
 };

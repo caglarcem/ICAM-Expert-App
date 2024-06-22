@@ -31,7 +31,13 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
   const sanitizeAndParseJson = (text: string): FollowupInterview[] => {
     try {
       // Remove escape characters and anything outside the JSON array
-      const sanitizedText = text.replace(/[^\x20-\x7E]+/g, '').trim();
+      const sanitizedText = text
+        .replace(/[^\x20-\x7E]+/g, '') // Remove non-printable characters
+        .replace(/\\n/g, '') // Remove new line characters
+        .replace(/\\t/g, '') // Remove tab characters
+        .replace(/\\/g, '') // Remove backslashes
+        .trim();
+
       const jsonStart = sanitizedText.indexOf('[');
       const jsonEnd = sanitizedText.lastIndexOf(']');
 

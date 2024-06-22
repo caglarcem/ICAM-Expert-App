@@ -17,8 +17,6 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
   contextKey,
   children,
 }) => {
-  console.log('Buraya geliyor mu?');
-
   const { files } = useFileContext();
   const { reportResults, setReportResult } = useReportResult();
   const [loading, setLoading] = useState<boolean>(false);
