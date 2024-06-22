@@ -8,7 +8,6 @@ import {
   TableRow,
   Paper,
   Box,
-  Typography,
 } from '@mui/material';
 
 interface FollowupInterview {
@@ -113,11 +112,7 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
           </Table>
         </TableContainer>
       )}
-      {jsonData.length === 0 && (
-        <Typography variant="body1" align="center">
-          No data available
-        </Typography>
-      )}
+      {jsonData.length === 0 && <></>}
     </Box>
   );
 };

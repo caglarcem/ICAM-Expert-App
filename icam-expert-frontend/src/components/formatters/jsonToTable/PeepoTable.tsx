@@ -8,7 +8,6 @@ import {
   TableRow,
   Paper,
   Box,
-  Typography,
 } from '@mui/material';
 
 interface PeepoData {
@@ -32,19 +31,11 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
 
   const sanitizeAndParseJson = (text: string): PeepoData[] => {
     try {
-      const sanitizedText = text
-        .replace(/[^\x20-\x7E]+/g, '') // Remove non-printable characters
-        .replace(/\\n/g, '') // Remove new line characters
-        .replace(/\\t/g, '') // Remove tab characters
-        .replace(/\\/g, '') // Remove backslashes
-        .trim();
-      const jsonStart = sanitizedText.indexOf('[');
-      const jsonEnd = sanitizedText.lastIndexOf(']');
+      const jsonStart = text.indexOf('[');
+      const jsonEnd = text.lastIndexOf(']');
 
       if (jsonStart !== -1 && jsonEnd !== -1) {
-        const jsonString = sanitizedText.substring(jsonStart, jsonEnd + 1);
-
-        console.log('SANITIZED JSON: ', jsonString);
+        const jsonString = text.substring(jsonStart, jsonEnd + 1);
 
         return JSON.parse(jsonString);
       }
@@ -151,9 +142,7 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
           </Table>
         </TableContainer>
       ) : (
-        <Typography variant="body1" align="center">
-          No data available
-        </Typography>
+        <></>
       )}
     </Box>
   );
