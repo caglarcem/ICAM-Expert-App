@@ -1,7 +1,7 @@
 import React from 'react';
 import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { useReportResult } from '../../context/ReportResultProvider';
-import { Typography } from '@mui/material';
+import TimelineTable from '../formatters/jsonToTable/TimelineTable';
 
 const Timeline: React.FC = () => {
   const contextKey = 'timeline';
@@ -15,11 +15,7 @@ const Timeline: React.FC = () => {
       apiEndpoint="/queryDocuments/report?tool=timeline-builder"
       contextKey={contextKey}
     >
-      {result && (
-        <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-          {result}
-        </Typography>
-      )}
+      {result && <TimelineTable text={result}></TimelineTable>}
     </IcamToolsBaseComponent>
   );
 };
