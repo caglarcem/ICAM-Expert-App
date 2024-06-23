@@ -4,7 +4,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   Box,
@@ -47,9 +46,6 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
 
       if (jsonStart !== -1 && jsonEnd !== -1) {
         const jsonString = text.substring(jsonStart, jsonEnd + 1);
-
-        console.log('SANITIZED JSON: ', jsonString);
-
         return JSON.parse(jsonString);
       }
       return {
@@ -76,30 +72,21 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
     }
   };
 
-  const getRowCount = (): number => {
-    return Math.max(
-      jsonData.DateTime.length,
-      jsonData.Event.length,
-      jsonData.Reason1.length,
-      jsonData.Reason2.length,
-      jsonData.Reason3.length,
-      jsonData.Reason4.length,
-      jsonData.Reason5.length
-    );
-  };
-
   return (
     <Box>
       {Object.keys(jsonData).length > 0 ? (
         <TableContainer component={Paper} style={{ marginTop: 20 }}>
           <Table>
-            <TableHead>
-              <TableRow>
-                {Object.keys(jsonData).map((key, index) => (
+            <TableBody>
+              {Object.keys(jsonData).map((key, index) => (
+                <TableRow
+                  key={index}
+                  style={{
+                    backgroundColor: index === 0 ? '#f0f0f0' : 'white',
+                  }}
+                >
                   <TableCell
-                    key={index}
                     style={{
-                      backgroundColor: '#f0f0f0',
                       border: '1px solid #ddd',
                       padding: '8px',
                       lineHeight: '1.25',
@@ -107,23 +94,12 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
                   >
                     {key}
                   </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Array.from({ length: getRowCount() }).map((_, rowIndex) => (
-                <TableRow
-                  key={rowIndex}
-                  style={{
-                    backgroundColor: rowIndex === 0 ? '#f0f0f0' : 'white',
-                  }}
-                >
-                  {Object.keys(jsonData).map((key, colIndex) => (
+                  {jsonData[key as keyof TimelineData].map((value, idx) => (
                     <TableCell
-                      key={colIndex}
+                      key={idx}
                       style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
                     >
-                      {jsonData[key as keyof TimelineData][rowIndex] || '-'}
+                      {value}
                     </TableCell>
                   ))}
                 </TableRow>
