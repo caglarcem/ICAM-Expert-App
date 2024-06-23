@@ -2,6 +2,7 @@ import React from 'react';
 import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { Typography } from '@mui/material';
 import { useReportResult } from '../../context/ReportResultProvider';
+import ContributingTable from '../formatters/jsonToTable/ContributingTable';
 
 const Contributing: React.FC = () => {
   const contextKey = 'contributing';
@@ -15,11 +16,7 @@ const Contributing: React.FC = () => {
       apiEndpoint="/queryDocuments/report?tool=contributing-factors-analysis"
       contextKey={contextKey}
     >
-      {result && (
-        <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-          {result}
-        </Typography>
-      )}
+      {result && <ContributingTable text={result} />}
     </IcamToolsBaseComponent>
   );
 };
