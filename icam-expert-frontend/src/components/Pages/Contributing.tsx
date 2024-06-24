@@ -1,8 +1,7 @@
 import React from 'react';
-import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
-import { Typography } from '@mui/material';
 import { useReportResult } from '../../context/ReportResultProvider';
 import ContributingTable from '../formatters/jsonToTable/ContributingTable';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Contributing: React.FC = () => {
   const contextKey = 'contributing';

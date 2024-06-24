@@ -1,8 +1,7 @@
 import React from 'react';
-import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { useReportResult } from '../../context/ReportResultProvider';
-import { Typography } from '@mui/material';
 import IcamTable from '../formatters/jsonToTable/IcamTable';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Icam: React.FC = () => {
   const contextKey = 'icam';

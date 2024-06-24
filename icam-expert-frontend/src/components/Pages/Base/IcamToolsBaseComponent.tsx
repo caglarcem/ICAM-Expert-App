@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Box, Button, Typography, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { useFileContext } from '../../../context/FileProvider';
 import { useReportResult } from '../../../context/ReportResultProvider';
 
@@ -18,7 +18,7 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
   children,
 }) => {
   const { files } = useFileContext();
-  const { reportResults, setReportResult } = useReportResult();
+  const { setReportResult } = useReportResult();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
