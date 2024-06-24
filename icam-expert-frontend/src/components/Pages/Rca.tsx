@@ -1,7 +1,7 @@
 import React from 'react';
-import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { useReportResult } from '../../context/ReportResultProvider';
-import { Typography } from '@mui/material';
+import RcaTable from '../formatters/jsonToTable/RcaTable';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Rca: React.FC = () => {
   const contextKey = 'rca';
@@ -15,11 +15,7 @@ const Rca: React.FC = () => {
       apiEndpoint="/queryDocuments/report?tool=root-cause-analysis"
       contextKey={contextKey}
     >
-      {result && (
-        <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-          {result}
-        </Typography>
-      )}
+      {result && <RcaTable text={result}></RcaTable>}
     </IcamToolsBaseComponent>
   );
 };

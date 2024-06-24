@@ -103,7 +103,7 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
     return parsedSegments;
   };
 
-  return <Box>{parseText(text)}</Box>;
+  return <Box data-testid='interview-response-summary'>{parseText(text)}</Box>;
 };
 
 export default InterviewResponseFormatter;
