@@ -1,14 +1,12 @@
-import React from 'react';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
+import React from 'react';
 
-interface InterviewResponseFormatterProps {
+interface InterviewSummaryProps {
   text: string;
 }
 
-const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
-  text,
-}) => {
+const InterviewSummary: React.FC<InterviewSummaryProps> = ({ text }) => {
   const parseText = (input: string) => {
     if (!input) return <></>;
 
@@ -37,6 +35,7 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
           ) {
             nonBoldText = '\t' + nonBoldText;
           }
+
           parts.push(
             <Typography
               key={`${index}-${lastIndex}`}
@@ -103,7 +102,7 @@ const InterviewResponseFormatter: React.FC<InterviewResponseFormatterProps> = ({
     return parsedSegments;
   };
 
-  return <Box data-testid='interview-response-summary'>{parseText(text)}</Box>;
+  return <Box data-testid="interview-response-summary">{parseText(text)}</Box>;
 };
 
-export default InterviewResponseFormatter;
+export default InterviewSummary;

@@ -1,13 +1,12 @@
-import * as fs from 'fs';
-import { Request, Response } from 'express';
-import multer, { Multer } from 'multer';
-import path from 'path';
-import { convertHandwrittenPdfToTextByAzure } from '../services/pdfToText.service';
-import { queryMultipleDocumentsWithSingleAnswer } from '../services/queryDocuments.service';
 import EnvVars from '@src/constants/EnvVars';
 import { NodeEnvs } from '@src/constants/misc';
+import { Request, Response } from 'express';
+import * as fs from 'fs';
+import multer, { Multer } from 'multer';
+import path from 'path';
 import { config } from '../../appConfig';
-import { Worker, isMainThread, parentPort, workerData } from 'worker_threads';
+import { convertHandwrittenPdfToTextByAzure } from '../services/pdfToText.service';
+import { queryMultipleDocumentsWithSingleAnswer } from '../services/queryDocuments.service';
 
 const docFolder = config.appSettings.uploadFolder;
 
@@ -111,7 +110,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
   }
 };
 
-export { saveFiles, getQueryAnswer };
+export { getQueryAnswer, saveFiles };
 
 // 1. Interview
 // const mockAnswer = `<b>Analysis of Discrepancies</b></n>
@@ -158,5 +157,8 @@ export { saveFiles, getQueryAnswer };
 // ]`;
 
 // PEEPO
-const mockAnswer =
-  '```json\n[\n    {\n        "Category": "People",\n        "Details": "Richard (Exploration Supervisor), Daniel Fischer (Injured Person), Tim Brown (Caller to Richard), Nathan Cross (Transported Injured Person), Brendon Balmain (Notified Supervisor)",\n        "Other": "Richard was in the office during the incident, Tim Brown informed Richard about the injury, Nathan Cross took Daniel to the paramedic",\n        "RelevantData": "Detailed statements from Daniel Fischer, Tim Brown, Nathan Cross, and Brendon Balmain"\n    },\n    {\n        "Category": "Environment",\n        "Details": "No specific environmental factors mentioned",\n        "Other": "Incident occurred late afternoon",\n        "RelevantData": "Specific time-related influences, workspace conditions around drilling site"\n    },\n    {\n        "Category": "Equipment",\n        "Details": "No specific equipment issues reported",\n        "Other": "Potential equipment malfunction not mentioned",\n        "RelevantData": "Details about equipment used by Daniel Fischer at the time of injury"\n    },\n    {\n        "Category": "Procedures",\n        "Details": "Notification procedure followed by Richard, transport of injured person to paramedic",\n        "Other": "Procedure to notify supervisors followed",\n        "RelevantData": "Specific procedures followed by Daniel Fischer and drill crew at time of incident"\n    },\n    {\n        "Category": "Organization",\n        "Details": "Richard reported incident to Brendan Balmain, waiting for ambulance",\n        "Other": "State of on-site first response protocols",\n        "RelevantData": "Communication effectiveness between exploration teams, efficiency of emergency response plan"\n    }\n]\n```';
+// const mockAnswer =
+//   '```json\n[\n    {\n        "Category": "People",\n        "Details": "Richard (Exploration Supervisor), Daniel Fischer (Injured Person), Tim Brown (Caller to Richard), Nathan Cross (Transported Injured Person), Brendon Balmain (Notified Supervisor)",\n        "Other": "Richard was in the office during the incident, Tim Brown informed Richard about the injury, Nathan Cross took Daniel to the paramedic",\n        "RelevantData": "Detailed statements from Daniel Fischer, Tim Brown, Nathan Cross, and Brendon Balmain"\n    },\n    {\n        "Category": "Environment",\n        "Details": "No specific environmental factors mentioned",\n        "Other": "Incident occurred late afternoon",\n        "RelevantData": "Specific time-related influences, workspace conditions around drilling site"\n    },\n    {\n        "Category": "Equipment",\n        "Details": "No specific equipment issues reported",\n        "Other": "Potential equipment malfunction not mentioned",\n        "RelevantData": "Details about equipment used by Daniel Fischer at the time of injury"\n    },\n    {\n        "Category": "Procedures",\n        "Details": "Notification procedure followed by Richard, transport of injured person to paramedic",\n        "Other": "Procedure to notify supervisors followed",\n        "RelevantData": "Specific procedures followed by Daniel Fischer and drill crew at time of incident"\n    },\n    {\n        "Category": "Organization",\n        "Details": "Richard reported incident to Brendan Balmain, waiting for ambulance",\n        "Other": "State of on-site first response protocols",\n        "RelevantData": "Communication effectiveness between exploration teams, efficiency of emergency response plan"\n    }\n]\n```';
+
+// ROOT CAUSE ANALYSIS
+const mockAnswer = `<b>1. Lack of attention and situational awareness</b></n> • <b>Summary:</b> The driller briefly looked away from the immediate task to check on another offsider, leading to a lapse in monitoring the active task.</n> • <b>Explanation:</b></n> ###[ { 'Contributing Factor': 'Driller briefly looked away while lowering rods', 'Certainty Rating': '90%', 'Explanation': 'The driller’s momentary lapse in attention compromised the safe execution of the task.' }, { 'Contributing Factor': 'Offsider adjusting insert without communicating', 'Certainty Rating': '80%', 'Explanation': 'The lack of communication between the driller and the offsider regarding the adjustment of the insert led to the incident.' }, { 'Contributing Factor': 'Complexity of task requiring full attention', 'Certainty Rating': '75%', 'Explanation': 'The task of lowering rods into the hole while simultaneously managing inserts is complex and requires undivided attention to avoid accidents.' } ] ### <b>2. Insufficient procedural safeguards</b></n> • <b>Summary:</b> There was a lack of adequate procedural safeguards in place to manage the risks associated with adjusting inserts during rod lowering.</n> • <b>Explanation:</b></n> ###[ { 'Contributing Factor': 'No clear procedure for adjusting inserts during active rod lowering', 'Certainty Rating': '85%', 'Explanation': 'The absence of a standardized procedure for safely adjusting inserts during rod lowering increased the likelihood of an incident.' }, { 'Contributing Factor': 'Inadequate training on risk management', 'Certainty Rating': '70%', 'Explanation': 'The crew may have lacked sufficient training on mitigating risks during multi-step processes like rod lowering and insert adjustments.' }, { 'Contributing Factor': 'Lack of communication protocols', 'Certainty Rating': '75%', 'Explanation': 'Insufficient communication protocols for high-risk tasks like these heightened the risk of accidents and injuries.' } ] ###`;

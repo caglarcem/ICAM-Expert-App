@@ -1,9 +1,9 @@
-import React from 'react';
-import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
-import { useReportResult } from '../../context/ReportResultProvider';
 import { Stack } from '@mui/material';
-import InterviewResponseFormatter from '../formatters/InterviewResponseFormatter';
+import React from 'react';
+import { useReportResult } from '../../context/ReportResultProvider';
+import InterviewSummary from '../formatters/InterviewSummary';
 import InterviewTable from '../formatters/jsonToTable/InterviewTable';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Interview: React.FC = () => {
   const contextKey = 'interview';
@@ -21,7 +21,7 @@ const Interview: React.FC = () => {
       contextKey={contextKey}
     >
       <Stack>
-        <InterviewResponseFormatter text={summary} />
+        <InterviewSummary text={summary} />
         <InterviewTable text={tableJson} />
       </Stack>
     </IcamToolsBaseComponent>

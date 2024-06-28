@@ -1,170 +1,133 @@
-import React, { useEffect, useState } from 'react';
 import {
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Box,
 } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
-interface Explanation {
-  contributingFactor: string;
-  certaintyRating: number;
-  explanation: string;
+interface ContributingFactor {
+  'Contributing Factor': string;
+  'Certainty Rating': string;
+  Explanation: string;
 }
 
-interface RootCause {
-  rootCause: string;
-  summary: string;
-  explanation: Explanation[];
-}
-
-interface RcaData {
-  'Root Causes': RootCause[];
-}
-
-interface RcaTableProps {
+interface IcamTableProps {
   text: string;
 }
 
-const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
-  const [jsonData, setJsonData] = useState<RcaData | null>(null);
+const RcaTable: React.FC<IcamTableProps> = ({ text }) => {
+  const [jsonData, setJsonData] = useState<ContributingFactor[][]>([]);
 
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
     setJsonData(parsedData);
   }, [text]);
 
-  const sanitizeAndParseJson = (text: string): RcaData | null => {
+  const sanitizeAndParseJson = (text: string): ContributingFactor[][] => {
     try {
-      const jsonStart = text.indexOf('{');
-      const jsonEnd = text.lastIndexOf('}');
+      const jsonParts = text.match(/\[.*?\]/g);
 
-      if (jsonStart !== -1 && jsonEnd !== -1) {
-        const jsonString = text.substring(jsonStart, jsonEnd + 1);
-        return JSON.parse(jsonString);
+      if (!jsonParts) {
+        throw new Error('No JSON arrays found in the text');
       }
-      return null;
+
+      const parsedArrays = jsonParts.map(jsonPart => {
+        const sanitizedJsonPart = jsonPart.replace(/'/g, '"');
+        return JSON.parse(sanitizedJsonPart);
+      });
+
+      return parsedArrays;
     } catch (e) {
-      console.log('JSON INPUT: ', text);
       console.error('Invalid JSON input', e);
-      return null;
+      return [];
     }
   };
 
   return (
     <Box>
-      {jsonData && jsonData['Root Causes'].length > 0 ? (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                  }}
-                >
-                  Root Cause
-                </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                  }}
-                >
-                  Summary
-                </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                  }}
-                >
-                  Explanation
-                </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                  }}
-                >
-                  Certainty Rating
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {jsonData['Root Causes'].map((rootCause, index) => (
-                <React.Fragment key={index}>
-                  <TableRow>
-                    <TableCell
-                      rowSpan={rootCause.explanation.length}
-                      style={{
-                        border: '1px solid #ddd',
-                        verticalAlign: 'top',
-                      }}
-                    >
-                      {rootCause.rootCause}
-                    </TableCell>
-                    <TableCell
-                      rowSpan={rootCause.explanation.length}
-                      style={{
-                        border: '1px solid #ddd',
-                        verticalAlign: 'top',
-                      }}
-                    >
-                      {rootCause.summary}
-                    </TableCell>
-                    <TableCell
-                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
-                    >
-                      {rootCause.explanation[0].contributingFactor}
-                    </TableCell>
-                    <TableCell
-                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
-                    >
-                      {rootCause.explanation[0].certaintyRating}%
-                    </TableCell>
-                  </TableRow>
-                  {rootCause.explanation.slice(1).map((exp, expIndex) => (
-                    <TableRow key={expIndex}>
+      {jsonData.length > 0 &&
+        jsonData.map(
+          (tableData, index) =>
+            Array.isArray(tableData) && (
+              <TableContainer
+                key={index}
+                component={Paper}
+                sx={{ marginTop: 2, marginBottom: 4 }}
+              >
+                <Table>
+                  <TableHead>
+                    <TableRow>
                       <TableCell
-                        style={{
+                        sx={{
+                          backgroundColor: '#f0f0f0',
                           border: '1px solid #ddd',
-                          verticalAlign: 'top',
+                          padding: 1,
+                          lineHeight: 1.25,
                         }}
                       >
-                        {exp.contributingFactor}
+                        Contributing Factor
                       </TableCell>
                       <TableCell
-                        style={{
+                        sx={{
+                          backgroundColor: '#f0f0f0',
                           border: '1px solid #ddd',
-                          verticalAlign: 'top',
+                          padding: 1,
+                          lineHeight: 1.25,
                         }}
                       >
-                        {exp.certaintyRating}%
+                        Certainty Rating
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          backgroundColor: '#f0f0f0',
+                          border: '1px solid #ddd',
+                          padding: 1,
+                          lineHeight: 1.25,
+                        }}
+                      >
+                        Explanation
                       </TableCell>
                     </TableRow>
-                  ))}
-                </React.Fragment>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        <></>
-      )}
+                  </TableHead>
+                  <TableBody>
+                    {tableData.map((data, rowIndex) => (
+                      <TableRow key={rowIndex}>
+                        <TableCell
+                          sx={{
+                            border: '1px solid #ddd',
+                            verticalAlign: 'top',
+                          }}
+                        >
+                          {data['Contributing Factor']}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            border: '1px solid #ddd',
+                            verticalAlign: 'top',
+                          }}
+                        >
+                          {data['Certainty Rating']}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            border: '1px solid #ddd',
+                            verticalAlign: 'top',
+                          }}
+                        >
+                          {data['Explanation']}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )
+        )}
     </Box>
   );
 };
