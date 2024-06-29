@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import App from './App';
 import { FileProvider } from './context/FileProvider';
@@ -34,7 +35,7 @@ describe('App tests', () => {
     expect(titleElement).toBeInTheDocument();
   });
 
-  test('should render Generate Interview link in the menu', () => {
+  test('should render Follow-up Interview link in the menu', () => {
     render(
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/']}>
@@ -46,7 +47,7 @@ describe('App tests', () => {
         </MemoryRouter>
       </ThemeProvider>
     );
-    const interviewLink = screen.getByText(/Generate Interview/i);
+    const interviewLink = screen.getByText(/Follow-up Interview/i);
     expect(interviewLink).toBeInTheDocument();
   });
 
@@ -138,7 +139,7 @@ describe('App tests', () => {
     });
   });
 
-  test('should display result after form submission', async () => {
+  test('should display interview response after form submission', async () => {
     render(
       <ThemeProvider theme={theme}>
         <MemoryRouter initialEntries={['/interview']}>
@@ -162,7 +163,15 @@ describe('App tests', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByTestId('report-result')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('interview-response-summary')
+      ).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('interview-response-table')
+      ).toBeInTheDocument();
     });
   });
 });

@@ -18,6 +18,7 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
     await fs.unlink(filePath, () => {
       console.log(`File ${filePath} deleted`);
     });
+
     // Dev / Test
     return mockWitnessReport;
   }

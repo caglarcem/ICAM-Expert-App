@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import { Box, Button, Typography, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { useFileContext } from '../../../context/FileProvider';
 import { useReportResult } from '../../../context/ReportResultProvider';
-import PeepoAnalysisTable from '../../../components/PeepoTable';
 
 interface IcamToolsBaseProps {
   description: string;
   apiEndpoint: string;
   contextKey: string;
+  children: React.ReactNode;
 }
 
 const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
   description,
   apiEndpoint,
   contextKey,
+  children,
 }) => {
   const { files } = useFileContext();
-  const { reportResults, setReportResult } = useReportResult();
+  const { setReportResult } = useReportResult();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
@@ -25,6 +26,8 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
       alert('Please select one or more files.');
       return;
     }
+
+    setReportResult(contextKey, '');
 
     setLoading(true);
 
@@ -87,21 +90,15 @@ const IcamToolsBaseComponent: React.FC<IcamToolsBaseProps> = ({
       </Box>
       <Box sx={{ marginTop: '16px' }}>
         {loading && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Box style={{ display: 'flex', justifyContent: 'center' }}>
             <CircularProgress
               color="secondary"
               size="2rem"
               data-testid="loading-spinner"
             />
-          </div>
+          </Box>
         )}
-        {contextKey === 'peepo' ? (
-          <PeepoAnalysisTable peepoAnalysis={reportResults[contextKey]} />
-        ) : (
-          <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-            {reportResults[contextKey]}
-          </Typography>
-        )}
+        {children}
       </Box>
     </Box>
   );

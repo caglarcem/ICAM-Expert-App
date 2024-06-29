@@ -47,14 +47,14 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
 
   const menuItems = [
     { path: '/', title: 'Home' },
-    { path: '/interview', title: 'Generate Interview' },
     { path: '/event', title: 'Event Description' },
     { path: '/peepo', title: 'PEEPO Builder' },
     { path: '/timeline', title: 'Timeline Builder' },
     { path: '/icam', title: 'ICAM Analysis' },
     { path: '/contributing', title: 'Contributing Factors' },
     { path: '/rca', title: 'Root Cause Analysis' },
-    { path: '/learnings', title: 'Key Learnings' },
+    { path: '/interview', title: 'Follow-up Interview' },
+    { path: '/learnings', title: 'Organisational Learnings' },
   ];
 
   return (
