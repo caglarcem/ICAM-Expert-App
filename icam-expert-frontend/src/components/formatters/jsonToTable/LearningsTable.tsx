@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface DataItem {
   'Contributing Factor': string;
@@ -15,32 +15,71 @@ interface DataItem {
   Description: string;
 }
 
-interface Props {
+interface LearningTableProps {
   text: string;
 }
 
-const LearningsTable: React.FC<Props> = ({ text }) => {
-  const jsonStart = text.indexOf('[');
-  const jsonEnd = text.lastIndexOf(']');
+const LearningsTable: React.FC<LearningTableProps> = ({ text }) => {
+  const [jsonData, setJsonData] = useState<DataItem[]>([]);
 
-  const jsonString = text.substring(jsonStart, jsonEnd + 1);
+  useEffect(() => {
+    try {
+      const jsonStart = text.indexOf('[');
+      const jsonEnd = text.lastIndexOf(']');
 
-  console.log('JSON STRING:', jsonString);
-  const jsonData = JSON.parse(jsonString);
+      if (jsonStart !== -1 && jsonEnd !== -1) {
+        const jsonString = text.substring(jsonStart, jsonEnd + 1);
+
+        console.log('JSON STRING:', jsonString);
+        const jsonObject = JSON.parse(jsonString);
+
+        console.log('JSON OBJECT:', jsonObject);
+        setJsonData(jsonObject);
+      }
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      setJsonData([]);
+    }
+  }, [text]);
 
   return (
     <TableContainer
       component={Paper}
-      style={{ maxWidth: '800px', margin: 'auto' }}
+      style={{ maxWidth: '800px', margin: 'auto', marginTop: '40px' }}
     >
       <Table aria-label="learnings table">
         <TableHead>
           <TableRow>
-            <TableCell style={{ fontWeight: 'bold' }}>
+            <TableCell
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid #ddd',
+                backgroundColor: '#f0f0f0',
+                width: '25%',
+              }}
+            >
               Contributing Factor
             </TableCell>
-            <TableCell style={{ fontWeight: 'bold' }}>Action</TableCell>
-            <TableCell style={{ fontWeight: 'bold' }}>Description</TableCell>
+            <TableCell
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid #ddd',
+                backgroundColor: '#f0f0f0',
+                width: '15%',
+              }}
+            >
+              Action
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid #ddd',
+                backgroundColor: '#f0f0f0',
+                width: '60%',
+              }}
+            >
+              Description
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -48,14 +87,7 @@ const LearningsTable: React.FC<Props> = ({ text }) => {
             <React.Fragment key={index}>
               <TableRow>
                 <TableCell
-                  style={{
-                    backgroundColor:
-                      index > 0 &&
-                      item['Contributing Factor'] ===
-                        jsonData[index - 1]['Contributing Factor']
-                        ? '#ffffff'
-                        : '#f0f0f0',
-                  }}
+                  style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
                 >
                   {index === 0 ||
                   item['Contributing Factor'] !==
@@ -63,8 +95,16 @@ const LearningsTable: React.FC<Props> = ({ text }) => {
                     ? item['Contributing Factor']
                     : ''}
                 </TableCell>
-                <TableCell>{item['Action']}</TableCell>
-                <TableCell>{item['Description']}</TableCell>
+                <TableCell
+                  style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                >
+                  {item.Action}
+                </TableCell>
+                <TableCell
+                  style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                >
+                  {item.Description}
+                </TableCell>
               </TableRow>
             </React.Fragment>
           ))}
