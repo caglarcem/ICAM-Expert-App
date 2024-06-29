@@ -65,7 +65,7 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginTop: 6 }}>
       {jsonData.length > 0 ? (
         <TableContainer component={Paper} style={{ marginTop: 20 }}>
           <Table>

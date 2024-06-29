@@ -73,7 +73,7 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginTop: 6 }}>
       {Object.keys(jsonData).length > 0 ? (
         <TableContainer component={Paper} style={{ marginTop: 20 }}>
           <Table>

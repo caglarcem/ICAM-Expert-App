@@ -47,7 +47,7 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
   };
 
   return (
-    <Box data-testid="interview-response-table">
+    <Box data-testid="interview-response-table" sx={{ marginTop: 6 }}>
       {jsonData.length > 0 && (
         <TableContainer component={Paper} style={{ marginTop: 20 }}>
           <Table>
