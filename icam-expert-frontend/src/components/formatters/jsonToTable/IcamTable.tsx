@@ -46,7 +46,7 @@ const IcamTable: React.FC<IcamTableProps> = ({ text }) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginTop: 6 }}>
       {jsonData.length > 0 ? (
         <TableContainer component={Paper} style={{ marginTop: 20 }}>
           <Table>
@@ -58,6 +58,7 @@ const IcamTable: React.FC<IcamTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Category
@@ -68,6 +69,7 @@ const IcamTable: React.FC<IcamTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Evaluation

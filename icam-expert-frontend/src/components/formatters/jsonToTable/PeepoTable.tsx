@@ -77,6 +77,7 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Category
@@ -87,6 +88,7 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Details
@@ -97,6 +99,7 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Other
@@ -107,6 +110,7 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Relevant Data to be Investigated

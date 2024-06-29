@@ -47,7 +47,7 @@ const ContributingTable: React.FC<ContributingTableProps> = ({ text }) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginTop: 6 }}>
       {jsonData.length > 0 ? (
         <TableContainer component={Paper} style={{ marginTop: 20 }}>
           <Table>
@@ -59,6 +59,7 @@ const ContributingTable: React.FC<ContributingTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Contributing Factor
@@ -69,6 +70,7 @@ const ContributingTable: React.FC<ContributingTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Certainty Rating
@@ -79,6 +81,7 @@ const ContributingTable: React.FC<ContributingTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Explanation

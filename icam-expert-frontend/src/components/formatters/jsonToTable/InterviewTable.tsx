@@ -59,6 +59,7 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Name
@@ -69,6 +70,7 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: '8px',
                     lineHeight: '1.25',
+                    fontWeight: 'bold',
                   }}
                 >
                   Questions

@@ -60,6 +60,7 @@ const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: 1,
                     lineHeight: 1.25,
+                    fontWeight: 'bold',
                   }}
                 >
                   Contributing Factor
@@ -70,6 +71,7 @@ const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: 1,
                     lineHeight: 1.25,
+                    fontWeight: 'bold',
                   }}
                 >
                   Certainty Rating
@@ -80,6 +82,7 @@ const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
                     border: '1px solid #ddd',
                     padding: 1,
                     lineHeight: 1.25,
+                    fontWeight: 'bold',
                   }}
                 >
                   Explanation

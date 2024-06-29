@@ -90,6 +90,7 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
                       border: '1px solid #ddd',
                       padding: '8px',
                       lineHeight: '1.25',
+                      fontWeight: index === 0 ? 'bold' : 'normal',
                     }}
                   >
                     {key}
@@ -97,7 +98,11 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
                   {jsonData[key as keyof TimelineData].map((value, idx) => (
                     <TableCell
                       key={idx}
-                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                      style={{
+                        border: '1px solid #ddd',
+                        verticalAlign: 'top',
+                        fontWeight: index === 0 ? 'bold' : 'normal',
+                      }}
                     >
                       {value}
                     </TableCell>
