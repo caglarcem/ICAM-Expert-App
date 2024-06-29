@@ -9,7 +9,12 @@ const Interview: React.FC = () => {
   const contextKey = 'interview';
   const { reportResults } = useReportResult();
 
-  const parts = reportResults[contextKey]?.split('###');
+  let result = reportResults[contextKey];
+  if (typeof result === 'object') {
+    result = JSON.stringify(reportResults[contextKey]);
+  }
+
+  const parts = result?.split('###');
 
   const summary = parts?.length > 0 ? parts[0] : '';
   const tableJson = parts?.length > 1 ? parts[1] : '';

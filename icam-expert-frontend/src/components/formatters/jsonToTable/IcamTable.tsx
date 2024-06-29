@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import {
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Box,
 } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 interface IcamData {
   Category: string;

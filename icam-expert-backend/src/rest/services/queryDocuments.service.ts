@@ -1,6 +1,6 @@
-import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import * as fs from 'fs';
+import OpenAI from 'openai';
 import path from 'path';
 
 dotenv.config();
@@ -26,6 +26,8 @@ const queryMultipleDocumentsWithSingleAnswer = async (
     : path.join(__dirname, '../', 'tools.json');
 
   const tool = readTools(jsonFilePath)?.find(tool => tool.name === toolName);
+
+  console.log('TOOL: ', tool);
 
   if (!tool) {
     throw new Error('Requested tool not found.');

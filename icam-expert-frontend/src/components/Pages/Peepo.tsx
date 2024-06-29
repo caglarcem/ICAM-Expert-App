@@ -1,14 +1,16 @@
 import React from 'react';
-import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { useReportResult } from '../../context/ReportResultProvider';
 import PeepoAnalysisTable from '../formatters/jsonToTable/PeepoTable';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Peepo: React.FC = () => {
   const contextKey = 'peepo';
   const { reportResults } = useReportResult();
-  const peepoAnalysis = JSON.stringify(reportResults[contextKey]);
 
-  console.log('PEEPO: ', peepoAnalysis);
+  let result = reportResults[contextKey];
+  if (typeof result === 'object') {
+    result = JSON.stringify(reportResults[contextKey]);
+  }
 
   return (
     <IcamToolsBaseComponent
@@ -16,7 +18,7 @@ const Peepo: React.FC = () => {
       apiEndpoint="/queryDocuments/report?tool=peepo-builder"
       contextKey={contextKey}
     >
-      {peepoAnalysis && <PeepoAnalysisTable text={peepoAnalysis} />}
+      {result && <PeepoAnalysisTable text={result} />}
     </IcamToolsBaseComponent>
   );
 };

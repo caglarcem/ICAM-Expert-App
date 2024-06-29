@@ -7,7 +7,10 @@ const Contributing: React.FC = () => {
   const contextKey = 'contributing';
   const { reportResults } = useReportResult();
 
-  const result = reportResults[contextKey];
+  let result = reportResults[contextKey];
+  if (typeof result === 'object') {
+    result = JSON.stringify(reportResults[contextKey]);
+  }
 
   return (
     <IcamToolsBaseComponent

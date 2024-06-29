@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import {
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Box,
 } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 interface FollowupInterview {
   Name: string;
@@ -29,19 +29,11 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
 
   const sanitizeAndParseJson = (text: string): FollowupInterview[] => {
     try {
-      // Remove escape characters and anything outside the JSON array
-      const sanitizedText = text
-        .replace(/[^\x20-\x7E]+/g, '') // Remove non-printable characters
-        .replace(/\\n/g, '') // Remove new line characters
-        .replace(/\\t/g, '') // Remove tab characters
-        .replace(/\\/g, '') // Remove backslashes
-        .trim();
-
-      const jsonStart = sanitizedText.indexOf('[');
-      const jsonEnd = sanitizedText.lastIndexOf(']');
+      const jsonStart = text.indexOf('[');
+      const jsonEnd = text.lastIndexOf(']');
 
       if (jsonStart !== -1 && jsonEnd !== -1) {
-        const jsonString = sanitizedText.substring(jsonStart, jsonEnd + 1);
+        const jsonString = text.substring(jsonStart, jsonEnd + 1);
 
         const jsonObject = JSON.parse(jsonString);
 

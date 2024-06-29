@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import {
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  Paper,
-  Box,
 } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 interface TimelineData {
   DateTime: string[];

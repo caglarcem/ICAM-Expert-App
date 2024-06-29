@@ -1,13 +1,16 @@
 import React from 'react';
-import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { useReportResult } from '../../context/ReportResultProvider';
 import TimelineTable from '../formatters/jsonToTable/TimelineTable';
+import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Timeline: React.FC = () => {
   const contextKey = 'timeline';
-
   const { reportResults } = useReportResult();
-  const result = reportResults[contextKey];
+
+  let result = reportResults[contextKey];
+  if (typeof result === 'object') {
+    result = JSON.stringify(reportResults[contextKey]);
+  }
 
   return (
     <IcamToolsBaseComponent

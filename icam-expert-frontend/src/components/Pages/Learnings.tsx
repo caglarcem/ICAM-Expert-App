@@ -1,13 +1,18 @@
-import { Typography } from '@mui/material';
 import React from 'react';
 import { useReportResult } from '../../context/ReportResultProvider';
+import LearningsTable from '../formatters/jsonToTable/LearningsTable';
 import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 
 const Learnings: React.FC = () => {
   const contextKey = 'learnings';
-
   const { reportResults } = useReportResult();
-  const result = reportResults[contextKey];
+
+  let result = reportResults[contextKey];
+  if (typeof result === 'object') {
+    result = JSON.stringify(reportResults[contextKey]);
+  }
+
+  console.log('STRINGIFIED RESULT: ', result);
 
   return (
     <IcamToolsBaseComponent
@@ -15,11 +20,7 @@ const Learnings: React.FC = () => {
       apiEndpoint="/queryDocuments/report?tool=key-learnings"
       contextKey={contextKey}
     >
-      {result && (
-        <Typography sx={{ marginTop: '32px' }} data-testid="report-result">
-          {result}
-        </Typography>
-      )}
+      {result && <LearningsTable text={result} />}
     </IcamToolsBaseComponent>
   );
 };

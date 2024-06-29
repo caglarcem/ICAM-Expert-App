@@ -10,8 +10,12 @@ const Rca: React.FC = () => {
 
   const { reportResults } = useReportResult();
 
-  const parts = reportResults[contextKey]?.split('###');
-  console.log('RCA report results:', reportResults[contextKey]);
+  let result = reportResults[contextKey];
+  if (typeof result === 'object') {
+    result = JSON.stringify(reportResults[contextKey]);
+  }
+
+  const parts = result?.split('###');
 
   const summary1 = parts?.length > 0 ? parts[0] : '';
   const tableJson1 = parts?.length > 1 ? parts[1] : '';
@@ -21,7 +25,7 @@ const Rca: React.FC = () => {
   return (
     <IcamToolsBaseComponent
       description="List Absent / Failed Defences, Individual /Team Actions, Task / Environmental Conditions, and Organisational factors in a table format. Select Files and press submit."
-      apiEndpoint="/queryDocuments/report?tool=icam-analysis"
+      apiEndpoint="/queryDocuments/report?tool=root-cause-analysis"
       contextKey={contextKey}
     >
       <Stack>

@@ -48,7 +48,7 @@ const RcaSummary: React.FC<RcaSummaryProps> = ({ text }) => {
       }
 
       return (
-        <Box key={index} sx={{ marginBottom: 1 }}>
+        <Box key={index} sx={{ marginTop: 3 }}>
           {parts}
         </Box>
       );
