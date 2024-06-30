@@ -7,7 +7,8 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from '../../common/CopyToClipboard';
 
 interface TimelineData {
   DateTime: string[];
@@ -33,6 +34,7 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
     Reason4: [],
     Reason5: [],
   });
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
@@ -74,8 +76,13 @@ const TimelineTable: React.FC<TimelineTableProps> = ({ text }) => {
 
   return (
     <Box sx={{ marginTop: 6 }}>
+      <CopyToClipboard tableRef={tableRef} />
       {Object.keys(jsonData).length > 0 ? (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
+        <TableContainer
+          component={Paper}
+          ref={tableRef}
+          style={{ marginTop: 20 }}
+        >
           <Table>
             <TableBody>
               {Object.keys(jsonData).map((key, index) => (

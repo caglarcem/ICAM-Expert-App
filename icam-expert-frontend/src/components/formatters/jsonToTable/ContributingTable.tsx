@@ -8,7 +8,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from '../../common/CopyToClipboard';
 
 interface ContributingData {
   ContributingFactor: string;
@@ -22,6 +23,7 @@ interface ContributingTableProps {
 
 const ContributingTable: React.FC<ContributingTableProps> = ({ text }) => {
   const [jsonData, setJsonData] = useState<ContributingData[]>([]);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
@@ -49,68 +51,76 @@ const ContributingTable: React.FC<ContributingTableProps> = ({ text }) => {
   return (
     <Box sx={{ marginTop: 6 }}>
       {jsonData.length > 0 ? (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Contributing Factor
-                </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Certainty Rating
-                </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Explanation
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {jsonData.map((data, index) => (
-                <TableRow key={index}>
+        <>
+          <CopyToClipboard tableRef={tableRef} />
+          <TableContainer
+            component={Paper}
+            ref={tableRef}
+            id="contributing-table"
+            style={{ marginTop: 20 }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell
-                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      lineHeight: '1.25',
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {data.ContributingFactor}
+                    Contributing Factor
                   </TableCell>
                   <TableCell
-                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      lineHeight: '1.25',
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {data.CertaintyRating}
+                    Certainty Rating
                   </TableCell>
                   <TableCell
-                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      lineHeight: '1.25',
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {data.Explanation}
+                    Explanation
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {jsonData.map((data, index) => (
+                  <TableRow key={index}>
+                    <TableCell
+                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {data.ContributingFactor}
+                    </TableCell>
+                    <TableCell
+                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {data.CertaintyRating}
+                    </TableCell>
+                    <TableCell
+                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {data.Explanation}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       ) : (
         <></>
       )}

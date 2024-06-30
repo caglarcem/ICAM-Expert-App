@@ -1,8 +1,5 @@
-import { ContentCopy as CopyIcon } from '@mui/icons-material';
 import {
   Box,
-  Divider,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -10,10 +7,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
-  Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from '../../common/CopyToClipboard';
 
 interface DataItem {
   'Contributing Factor': string;
@@ -27,6 +23,7 @@ interface LearningTableProps {
 
 const LearningsTable: React.FC<LearningTableProps> = ({ text }) => {
   const [jsonData, setJsonData] = useState<DataItem[]>([]);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     try {
@@ -35,11 +32,8 @@ const LearningsTable: React.FC<LearningTableProps> = ({ text }) => {
 
       if (jsonStart !== -1 && jsonEnd !== -1) {
         const jsonString = text.substring(jsonStart, jsonEnd + 1);
-
-        console.log('JSON STRING:', jsonString);
         const jsonObject = JSON.parse(jsonString);
 
-        console.log('JSON OBJECT:', jsonObject);
         setJsonData(jsonObject);
       }
     } catch (error) {
@@ -48,43 +42,15 @@ const LearningsTable: React.FC<LearningTableProps> = ({ text }) => {
     }
   }, [text]);
 
-  const copyToClipboard = () => {
-    const table = document.getElementById('learning-table');
-    if (table) {
-      const range = document.createRange();
-      range.selectNode(table);
-      window.getSelection()?.removeAllRanges(); // clear current selection
-      window.getSelection()?.addRange(range); // to select text
-      document.execCommand('copy');
-      window.getSelection()?.removeAllRanges(); // to deselect
-    }
-  };
-
   return (
     <Box sx={{ margin: 'auto', marginTop: '40px', maxWidth: '800px' }}>
-      <Divider />
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-        <Tooltip title="Copy table">
-          <IconButton
-            onClick={copyToClipboard}
-            sx={{
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: '4px',
-              '&:hover': {
-                color: '#9c27b0',
-              },
-            }}
-          >
-            <Typography sx={{ fontSize: 'small', marginRight: '4px' }}>
-              Copy table
-            </Typography>
-            <CopyIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <TableContainer component={Paper} id="learning-table" sx={{ mt: 1 }}>
+      <CopyToClipboard tableRef={tableRef} />
+      <TableContainer
+        component={Paper}
+        ref={tableRef}
+        id="learning-table"
+        sx={{ mt: 1 }}
+      >
         <Table aria-label="learnings table">
           <TableHead>
             <TableRow>

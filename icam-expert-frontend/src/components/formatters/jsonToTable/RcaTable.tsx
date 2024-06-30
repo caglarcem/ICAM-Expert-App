@@ -8,7 +8,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from '../../common/CopyToClipboard';
 
 interface Rca {
   'Contributing Factor': string;
@@ -22,6 +23,7 @@ interface RcaTableProps {
 
 const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
   const [jsonData, setJsonData] = useState<Rca[]>([]);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
@@ -49,8 +51,9 @@ const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
 
   return (
     <Box>
+      <CopyToClipboard tableRef={tableRef} />
       {jsonData.length > 0 && (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} ref={tableRef}>
           <Table>
             <TableHead>
               <TableRow>

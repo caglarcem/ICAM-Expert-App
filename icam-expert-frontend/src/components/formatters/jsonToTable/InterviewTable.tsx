@@ -8,7 +8,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from '../../common/CopyToClipboard';
 
 interface FollowupInterview {
   Name: string;
@@ -21,6 +22,7 @@ interface InterviewTableProps {
 
 const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
   const [jsonData, setJsonData] = useState<FollowupInterview[]>([]);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
@@ -49,62 +51,69 @@ const InterviewTable: React.FC<InterviewTableProps> = ({ text }) => {
   return (
     <Box data-testid="interview-response-table" sx={{ marginTop: 6 }}>
       {jsonData.length > 0 && (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Name
-                </TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: '8px',
-                    lineHeight: '1.25',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Questions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {jsonData.map((person, index) => (
-                <TableRow key={index}>
+        <>
+          <CopyToClipboard tableRef={tableRef} />
+          <TableContainer
+            component={Paper}
+            ref={tableRef}
+            style={{ marginTop: 20 }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell
-                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      lineHeight: '1.25',
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {person.Name}
+                    Name
                   </TableCell>
                   <TableCell
-                    style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      lineHeight: '1.25',
+                      fontWeight: 'bold',
+                    }}
                   >
-                    <ul
-                      style={{
-                        paddingInlineStart: '16px',
-                        marginBlockStart: '0px',
-                        marginBlockEnd: '0px',
-                      }}
-                    >
-                      {person.Questions?.map((question, qIndex) => (
-                        <li key={qIndex}>{question}</li>
-                      ))}
-                    </ul>
+                    Questions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {jsonData.map((person, index) => (
+                  <TableRow key={index}>
+                    <TableCell
+                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {person.Name}
+                    </TableCell>
+                    <TableCell
+                      style={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      <ul
+                        style={{
+                          paddingInlineStart: '16px',
+                          marginBlockStart: '0px',
+                          marginBlockEnd: '0px',
+                        }}
+                      >
+                        {person.Questions?.map((question, qIndex) => (
+                          <li key={qIndex}>{question}</li>
+                        ))}
+                      </ul>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       )}
       {jsonData.length === 0 && <></>}
     </Box>
