@@ -8,7 +8,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from '../../common/CopyToClipboard';
 
 interface PeepoData {
   Category: string;
@@ -23,6 +24,7 @@ interface PeepoTableProps {
 
 const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
   const [jsonData, setJsonData] = useState<PeepoData[]>([]);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const parsedData = sanitizeAndParseJson(text);
@@ -66,8 +68,13 @@ const PeepoTable: React.FC<PeepoTableProps> = ({ text }) => {
 
   return (
     <Box sx={{ marginTop: 6 }}>
+      <CopyToClipboard tableRef={tableRef} />
       {jsonData.length > 0 ? (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
+        <TableContainer
+          component={Paper}
+          ref={tableRef}
+          style={{ marginTop: 20 }}
+        >
           <Table>
             <TableHead>
               <TableRow>
