@@ -1,10 +1,10 @@
 require('module-alias/register');
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import express, { Request, Response, NextFunction } from 'express';
-import logger from 'jet-logger';
 import cors from 'cors';
+import express, { NextFunction, Request, Response } from 'express';
+import helmet from 'helmet';
+import logger from 'jet-logger';
+import morgan from 'morgan';
 
 import 'express-async-errors';
 
@@ -36,7 +36,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 
   app.use(express.static(path.join(__dirname, '../../frontend/build')));
 
-  app.get('/', function (req, res) {
+  app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
   });
 }
