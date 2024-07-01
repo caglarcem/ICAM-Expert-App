@@ -51,70 +51,73 @@ const RcaTable: React.FC<RcaTableProps> = ({ text }) => {
 
   return (
     <Box>
-      <CopyToClipboard tableRef={tableRef} />
       {jsonData.length > 0 && (
-        <TableContainer component={Paper} ref={tableRef}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: 1,
-                    lineHeight: 1.25,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Contributing Factor
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: 1,
-                    lineHeight: 1.25,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Certainty Rating
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    padding: 1,
-                    lineHeight: 1.25,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Explanation
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {jsonData.map((data, index) => (
-                <TableRow key={index}>
+        <>
+          <CopyToClipboard tableRef={tableRef} />
+
+          <TableContainer component={Paper} ref={tableRef}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell
-                    sx={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    sx={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: 1,
+                      lineHeight: 1.25,
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {data['Contributing Factor']}
+                    Contributing Factor
                   </TableCell>
                   <TableCell
-                    sx={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    sx={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: 1,
+                      lineHeight: 1.25,
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {data['Certainty Rating']}
+                    Certainty Rating
                   </TableCell>
                   <TableCell
-                    sx={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    sx={{
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      padding: 1,
+                      lineHeight: 1.25,
+                      fontWeight: 'bold',
+                    }}
                   >
-                    {data.Explanation}
+                    Explanation
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {jsonData.map((data, index) => (
+                  <TableRow key={index}>
+                    <TableCell
+                      sx={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {data['Contributing Factor']}
+                    </TableCell>
+                    <TableCell
+                      sx={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {data['Certainty Rating']}
+                    </TableCell>
+                    <TableCell
+                      sx={{ border: '1px solid #ddd', verticalAlign: 'top' }}
+                    >
+                      {data.Explanation}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       )}
     </Box>
   );
