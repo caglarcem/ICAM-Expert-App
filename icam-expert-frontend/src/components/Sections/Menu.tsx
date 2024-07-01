@@ -1,18 +1,18 @@
-import React from 'react';
 import {
+  Box,
   List,
   ListItemButton,
   ListItemText,
   Typography,
   useTheme,
-  Box,
 } from '@mui/material';
+import { styled } from '@mui/system';
+import React, { forwardRef } from 'react';
 import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
+  useLocation,
 } from 'react-router-dom';
-import { styled } from '@mui/system';
-import { forwardRef } from 'react';
 
 // Define a custom link component that forwards refs and passes the `to` prop.
 const CustomRouterLink = forwardRef<HTMLAnchorElement, RouterLinkProps>(
@@ -37,12 +37,18 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
   const theme = useTheme();
+  const location = useLocation();
 
   const menuItemCss = {
     fontFamily: 'Roboto, sans-serif',
     fontSize: '0.9rem',
     fontWeight: 500,
     color: '#666666',
+  };
+
+  const selectedMenuItemCss = {
+    ...menuItemCss,
+    fontWeight: 'bold' as 'bold',
   };
 
   const menuItems = [
@@ -84,10 +90,35 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
             key={item.path}
             to={item.path}
             onClick={onMenuItemClick}
+            sx={{
+              backgroundColor:
+                location.pathname === item.path ? 'white' : 'inherit',
+              borderBottom:
+                location.pathname === item.path
+                  ? '1px solid rgb(156, 39, 176)'
+                  : '1px solid #f0f0f0', // Very light line between items
+              '&:hover': {
+                backgroundColor: theme.palette.action.hover,
+              },
+              '&::after': {
+                content: '""',
+                display: location.pathname === item.path ? 'block' : 'none',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '100%',
+                height: '1px', // Thinner underline
+                backgroundColor: 'rgb(156, 39, 176)',
+              },
+            }}
           >
             <ListItemText
               primary={item.title}
-              primaryTypographyProps={menuItemCss}
+              primaryTypographyProps={
+                location.pathname === item.path
+                  ? selectedMenuItemCss
+                  : menuItemCss
+              }
             />
           </StyledListItemButton>
         ))}

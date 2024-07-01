@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   Box,
   CssBaseline,
@@ -8,17 +7,18 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import Menu from './components/Sections/Menu';
-import Home from './components/Pages/Home';
-import Interview from './components/Pages/Interview';
-import Event from './components/Pages/Event';
-import Peepo from './components/Pages/Peepo';
-import Timeline from './components/Pages/Timeline';
-import Icam from './components/Pages/Icam';
+import React, { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Contributing from './components/Pages/Contributing';
-import Rca from './components/Pages/Rca';
+import Event from './components/Pages/Event';
+import Home from './components/Pages/Home';
+import Icam from './components/Pages/Icam';
+import Interview from './components/Pages/Interview';
 import Learnings from './components/Pages/Learnings';
+import Peepo from './components/Pages/Peepo';
+import Rca from './components/Pages/Rca';
+import Timeline from './components/Pages/Timeline';
+import Menu from './components/Sections/Menu';
 import UploadPanel from './components/Sections/UploadPanel';
 
 const drawerWidth = 240;
