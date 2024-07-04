@@ -14,8 +14,11 @@ RUN npm install --platform=linuxmusl --arch=x64 sharp
 COPY icam-expert-backend .
 RUN npm run build
 
-# Stage 3: Create the final image
+# Stage 3: Create the final image with FFmpeg
 FROM node:22-alpine
+# Install FFmpeg
+RUN apk update && apk add --no-cache ffmpeg
+
 WORKDIR /app
 COPY --from=frontend-builder /app/frontend/build ./frontend/build
 COPY --from=backend-builder /app/backend ./backend

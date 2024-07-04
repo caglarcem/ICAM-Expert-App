@@ -1,5 +1,15 @@
-import { UploadOutlined as UploadIcon } from '@mui/icons-material';
-import { Box, Button, InputLabel, Typography } from '@mui/material';
+import {
+  RemoveCircleOutline as RemoveIcon,
+  UploadOutlined as UploadIcon,
+} from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  IconButton,
+  InputLabel,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import React, { ChangeEvent } from 'react';
 import { useFileContext } from '../../context/FileProvider';
 
@@ -11,6 +21,10 @@ const UploadPanel: React.FC = () => {
       const selectedFiles = Array.from(e.target.files);
       setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     }
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
   };
 
   return (
@@ -42,14 +56,27 @@ const UploadPanel: React.FC = () => {
       </InputLabel>
       <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
         {files.map((file, index) => (
-          <Box key={index} sx={{ marginTop: '8px' }}>
+          <Box
+            key={index}
+            sx={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}
+          >
             <Typography
               variant="body2"
-              sx={{ color: '#5c5c5c' }}
+              sx={{ color: '#5c5c5c', flexGrow: 1 }}
               data-testid={`file-name-${index}`}
             >
               {file.name}
             </Typography>
+            <Tooltip title="Remove">
+              <IconButton
+                edge="end"
+                aria-label="remove"
+                onClick={() => handleRemoveFile(index)}
+                data-testid={`remove-file-button-${index}`}
+              >
+                <RemoveIcon sx={{ fontSize: '1.2rem', color: '#b30000' }} />
+              </IconButton>
+            </Tooltip>
           </Box>
         ))}
       </Box>

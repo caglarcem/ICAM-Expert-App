@@ -1,5 +1,5 @@
 import { ContentCopy as CopyIcon } from '@mui/icons-material';
-import { Box, Divider, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 
 interface TableProps {
@@ -20,29 +20,33 @@ const CopyToClipboard: React.FC<TableProps> = ({ tableRef }) => {
   };
 
   return (
-    <Box>
-      <Divider />
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-        <Tooltip title="Copy contents (Excel compatible)">
-          <IconButton
-            onClick={copyToClipboard}
-            sx={{
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: '4px',
-              '&:hover': {
-                color: '#9c27b0',
-              },
-            }}
-          >
-            <Typography sx={{ fontSize: 'small', marginRight: '4px' }}>
-              Copy table
-            </Typography>
-            <CopyIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        mt: 1,
+        backgroundColor: '#fbfbfb',
+      }}
+    >
+      <Tooltip title="Copy contents (Excel compatible)">
+        <IconButton
+          onClick={copyToClipboard}
+          sx={{
+            padding: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            borderRadius: '6px',
+            '&:hover': {
+              color: '#9c27b0',
+            },
+          }}
+        >
+          <Typography sx={{ fontSize: 'small', marginRight: '4px' }}>
+            Copy table
+          </Typography>
+          <CopyIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 };
