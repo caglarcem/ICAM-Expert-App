@@ -34,7 +34,7 @@ const UploadPanel: React.FC = () => {
         style={{ display: 'none' }}
         type="file"
         onChange={handleFileChange}
-        accept=".pdf"
+        accept=".pdf, .docx, .jpg, .jpeg, .mp4"
         multiple
         data-testid="file-input"
       />
