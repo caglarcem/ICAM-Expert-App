@@ -27,6 +27,28 @@ const UploadPanel: React.FC = () => {
     setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
   };
 
+  const viewerFileTypes = ['.pdf', '.jpg', '.jpeg', '.png', '.tiff'];
+  const audioFileTypes = ['.wav', '.ogg', '.mp3', '.flac', '.amr'];
+  const videoFileTypes = [
+    '.mp4',
+    '.avi',
+    '.mkv',
+    '.mov',
+    '.flv',
+    '.wmv',
+    '.webm',
+    '.mpeg',
+    '.mpg',
+    '.3gp',
+    '.ogv',
+  ];
+
+  const combinedFileTypes = [
+    ...viewerFileTypes,
+    ...audioFileTypes,
+    ...videoFileTypes,
+  ].join(', ');
+
   return (
     <Box sx={{ padding: 2 }}>
       <input
@@ -34,8 +56,7 @@ const UploadPanel: React.FC = () => {
         style={{ display: 'none' }}
         type="file"
         onChange={handleFileChange}
-        /*, .mp4,  .mov - video formats are also working. not allowed for 1- High cost 2-slow performance */
-        accept=".pdf, .docx, .jpg, .jpeg, .wav"
+        accept={combinedFileTypes}
         multiple
         data-testid="file-input"
       />

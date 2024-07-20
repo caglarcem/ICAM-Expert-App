@@ -123,8 +123,6 @@ const extractTextDocumentsFromFile = async (files: Express.Multer.File[]): Promi
 
         console.log('AUDIO TEXT OUTPUT: ', outputText);
       } else if (videoFileTypes.includes(path.extname(originalFilePath))) {
-        /* TODO , .mp4,  .mov - video formats are also working. not allowed for 1- High cost 2-slow performance */
-
         // Convert to audio (.wav) with ffmpeg
         const audioFilePath = await convertVideoToAudio(originalFilePath, '.wav');
 
