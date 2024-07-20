@@ -7,10 +7,10 @@ COPY icam-expert-frontend .
 RUN npm run build
 
 # Stage 2: Build the backend
-FROM node:22-alpine as backend-builder
+FROM node:22-bullseye-slim as backend-builder
 WORKDIR /app/backend
 COPY icam-expert-backend/package*.json ./
-RUN npm install --platform=linuxmusl --arch=x64 sharp
+RUN npm install
 COPY icam-expert-backend .
 RUN npm run build
 
