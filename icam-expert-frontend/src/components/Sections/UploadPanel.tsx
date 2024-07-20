@@ -34,7 +34,8 @@ const UploadPanel: React.FC = () => {
         style={{ display: 'none' }}
         type="file"
         onChange={handleFileChange}
-        accept=".pdf, .docx, .jpg, .jpeg, .mp4"
+        /*, .mp4,  .mov - video formats are also working. not allowed for 1- High cost 2-slow performance */
+        accept=".pdf, .docx, .jpg, .jpeg, .wav"
         multiple
         data-testid="file-input"
       />

@@ -14,6 +14,9 @@ const convertVideoToAudio = (inputFilePath: string, outputAudioTypeExt: string):
 
     ffmpeg(inputFilePath)
       .output(outputFilePath)
+      .audioCodec('pcm_s16le') // Set audio codec to PCM 16-bit little-endian
+      .audioChannels(1) // Mono channel
+      .audioFrequency(16000) // Set sample rate to 16kHz
       .on('end', () => {
         console.log(`Conversion finished: ${outputFilePath}`);
         resolve(outputFilePath);

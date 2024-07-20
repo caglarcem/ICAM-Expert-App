@@ -7,7 +7,7 @@ import path from 'path';
 import { config } from '../../appConfig';
 import { convertHandwrittenFileToTextByAzure } from '../services/pdfToText.service';
 import { queryMultipleDocumentsWithSingleAnswer } from '../services/queryDocuments.service';
-import convertSpeechToText from '../services/speechToText.service';
+import { convertSpeechToText } from '../services/speechToText.service';
 import convertVideoToAudio from '../services/videoToAudio.service';
 import convertWordDocToText from '../services/wordToText.service';
 
@@ -65,7 +65,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     return res.status(400).send('No file uploaded.');
   }
 
-  // Uploaded succussfully
+  // Uploaded successfully
 
   console.log('Upload successful.');
 
@@ -86,7 +86,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     if (!answer) {
       console.log('No answer...');
 
-      return res.send('An error occured, please try again later.');
+      return res.send('An error occurred, please try again later.');
     }
 
     res.send(answer);
@@ -103,38 +103,44 @@ const extractTextDocumentsFromFile = async (files: Express.Multer.File[]): Promi
 
   for (const file of files as Express.Multer.File[]) {
     const levelsUp = path.resolve(__dirname, '..', '..', '..');
-    const filePath = path.join(levelsUp, docFolder, file.filename);
+    const originalFilePath = path.join(levelsUp, docFolder, file.filename);
 
     try {
-      console.log('File path:', filePath);
+      console.log('File path:', originalFilePath);
 
       let outputText = '';
 
-      if (path.extname(filePath) === '.docx') {
+      if (path.extname(originalFilePath) === '.docx') {
         // Read docx file and get the plain text
-        outputText = await convertWordDocToText(filePath);
-      } else if (viewerFileTypes.includes(path.extname(filePath))) {
-        console.log('HANDWRITTEN: ', filePath);
+        outputText = await convertWordDocToText(originalFilePath);
+      } else if (viewerFileTypes.includes(path.extname(originalFilePath))) {
         // Read the handwritten or any meaningful text directly
-        outputText = await convertHandwrittenFileToTextByAzure(filePath);
-
-        console.log('OUTPUT TEXT: ', outputText);
-      } else if (audioFileTypes.includes(path.extname(filePath))) {
+        outputText = await convertHandwrittenFileToTextByAzure(originalFilePath);
+      } else if (audioFileTypes.includes(path.extname(originalFilePath))) {
+        console.log('AUDIO BEING PROCESSED: ', originalFilePath);
         // Convert audio to text
-        outputText = await convertSpeechToText(filePath);
-      } else if (videoFileTypes.includes(path.extname(filePath))) {
+        outputText = await convertSpeechToText(originalFilePath);
+
+        console.log('AUDIO TEXT OUTPUT: ', outputText);
+      } else if (videoFileTypes.includes(path.extname(originalFilePath))) {
+        /* TODO , .mp4,  .mov - video formats are also working. not allowed for 1- High cost 2-slow performance */
+
         // Convert to audio (.wav) with ffmpeg
-        const audioFilePath = await convertVideoToAudio(filePath, '.wav');
+        const audioFilePath = await convertVideoToAudio(originalFilePath, '.wav');
 
         // Convert audio to text
         outputText = await convertSpeechToText(audioFilePath);
+
+        await fs.unlink(audioFilePath, () => {
+          console.log(`Converted audio file ${audioFilePath} deleted`);
+        });
       }
 
       console.log('File content converted to text');
 
       // Delete the file after extracting the text output
-      await fs.unlink(filePath, () => {
-        console.log(`File ${filePath} deleted`);
+      await fs.unlink(originalFilePath, () => {
+        console.log(`File ${originalFilePath} deleted`);
       });
 
       if (outputText) {

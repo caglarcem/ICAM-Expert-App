@@ -27,7 +27,7 @@ const queryMultipleDocumentsWithSingleAnswer = async (
 
   const tool = readTools(jsonFilePath)?.find(tool => tool.name === toolName);
 
-  console.log('TOOL: ', tool);
+  console.log('TOOL: ', tool?.title);
 
   if (!tool) {
     throw new Error('Requested tool not found.');
