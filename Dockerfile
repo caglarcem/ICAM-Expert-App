@@ -26,5 +26,5 @@ RUN npm install -g ts-node
 EXPOSE 3000
 WORKDIR /app/backend
 
-# Start the backend and frontend together
-CMD ["ts-node", "src/index.ts", "--env=production"]
+# Start the backend and frontend together with increased memory limit
+CMD ["node", "--max_old_space_size=2048", "-r", "ts-node/register", "src/index.ts", "--env=production"]
