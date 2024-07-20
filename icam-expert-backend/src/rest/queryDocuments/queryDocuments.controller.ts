@@ -5,18 +5,25 @@ import * as fs from 'fs';
 import multer, { Multer } from 'multer';
 import path from 'path';
 import { config } from '../../appConfig';
-import { convertHandwrittenPdfToTextByAzure } from '../services/pdfToText.service';
+import { convertHandwrittenFileToTextByAzure } from '../services/pdfToText.service';
 import { queryMultipleDocumentsWithSingleAnswer } from '../services/queryDocuments.service';
+import { convertSpeechToText } from '../services/speechToText.service';
+import convertVideoToAudio from '../services/videoToAudio.service';
+import convertWordDocToText from '../services/wordToText.service';
+
+const viewerFileTypes = ['.pdf', '.jpg', '.jpeg', '.png', '.tiff'];
+const audioFileTypes = ['.wav', '.ogg', '.mp3', '.flac', '.amr'];
+const videoFileTypes = ['.mp4', '.avi', '.mkv', '.mov', '.flv', '.wmv', '.webm', '.mpeg', '.mpg', '.3gp', '.ogv'];
 
 const docFolder = config.appSettings.uploadFolder;
-
-console.log('checking if uploads folder exists');
 if (!fs.existsSync(docFolder)) {
   console.log('Uploads folder does not exist, creating...');
   fs.mkdirSync(docFolder);
 }
 
 const saveFiles = (req: Request, res: Response, next: () => void) => {
+  console.log('checking if uploads folder exists');
+
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, docFolder);
@@ -58,28 +65,81 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     return res.status(400).send('No file uploaded.');
   }
 
-  // Uploaded succussfully
+  // Uploaded successfully
 
   console.log('Upload successful.');
 
   // Tool name from the client
   const toolName = req.query.tool as string;
 
-  // Convert the handwritten pdf files to text files
-  const documents: string[] = [];
-
   console.log('Tool name:', toolName);
 
-  for (const file of req.files as Express.Multer.File[]) {
+  const documents: string[] = await extractTextDocumentsFromFile(req.files as Express.Multer.File[]);
+
+  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
+    console.log('Production mode... Querying all the documents...');
+
+    const answer = await queryMultipleDocumentsWithSingleAnswer(documents, toolName);
+
+    console.log(`TOOL: ${toolName} - ANSWER: `, answer);
+
+    if (!answer) {
+      console.log('No answer...');
+
+      return res.send('An error occurred, please try again later.');
+    }
+
+    res.send(answer);
+  } else {
+    // Dev / Test - Mock
+    // TODO: mock answer for each tool
+    res.send(mockAnswer);
+  }
+};
+
+// Convert the docs and handwritten image/pdf files to text array
+const extractTextDocumentsFromFile = async (files: Express.Multer.File[]): Promise<string[]> => {
+  const documents: string[] = [];
+
+  for (const file of files as Express.Multer.File[]) {
     const levelsUp = path.resolve(__dirname, '..', '..', '..');
-    const pdfFilePath = path.join(levelsUp, docFolder, file.filename);
+    const originalFilePath = path.join(levelsUp, docFolder, file.filename);
 
     try {
-      console.log('PDF file path:', pdfFilePath);
+      console.log('File path:', originalFilePath);
 
-      const outputText = await convertHandwrittenPdfToTextByAzure(pdfFilePath);
+      let outputText = '';
 
-      console.log('PDF converted to text');
+      if (path.extname(originalFilePath) === '.docx') {
+        // Read docx file and get the plain text
+        outputText = await convertWordDocToText(originalFilePath);
+      } else if (viewerFileTypes.includes(path.extname(originalFilePath))) {
+        // Read the handwritten or any meaningful text directly
+        outputText = await convertHandwrittenFileToTextByAzure(originalFilePath);
+      } else if (audioFileTypes.includes(path.extname(originalFilePath))) {
+        console.log('AUDIO BEING PROCESSED: ', originalFilePath);
+        // Convert audio to text
+        outputText = await convertSpeechToText(originalFilePath);
+
+        console.log('AUDIO TEXT OUTPUT: ', outputText);
+      } else if (videoFileTypes.includes(path.extname(originalFilePath))) {
+        // Convert to audio (.wav) with ffmpeg
+        const audioFilePath = await convertVideoToAudio(originalFilePath, '.wav');
+
+        // Convert audio to text
+        outputText = await convertSpeechToText(audioFilePath);
+
+        await fs.unlink(audioFilePath, () => {
+          console.log(`Converted audio file ${audioFilePath} deleted`);
+        });
+      }
+
+      console.log('File content converted to text');
+
+      // Delete the file after extracting the text output
+      await fs.unlink(originalFilePath, () => {
+        console.log(`File ${originalFilePath} deleted`);
+      });
 
       if (outputText) {
         console.log('The converted output text has some content');
@@ -91,25 +151,7 @@ const getQueryAnswer = async (req: Request, res: Response) => {
     }
   }
 
-  if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
-    console.log('Production mode... Querying all the documents...');
-
-    const answer = await queryMultipleDocumentsWithSingleAnswer(documents, toolName);
-
-    console.log('ANSWER: ', answer);
-
-    if (!answer) {
-      console.log('No answer...');
-
-      return res.send('An error occured, please try again later.');
-    }
-    console.log('There is an answer.');
-
-    res.send(answer);
-  } else {
-    // Dev / Test - Mock
-    res.send(mockAnswer);
-  }
+  return documents;
 };
 
 export { getQueryAnswer, saveFiles };

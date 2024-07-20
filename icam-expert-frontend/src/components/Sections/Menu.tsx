@@ -92,7 +92,9 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
             onClick={onMenuItemClick}
             sx={{
               backgroundColor:
-                location.pathname === item.path ? 'white' : 'inherit',
+                location.pathname === item.path
+                  ? theme.palette.action.hover
+                  : 'inherit',
               borderBottom:
                 location.pathname === item.path
                   ? '1px solid rgb(156, 39, 176)'

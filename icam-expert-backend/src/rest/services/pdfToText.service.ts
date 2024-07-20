@@ -1,27 +1,25 @@
-import * as fs from 'fs';
-import pdf from 'pdf-parse';
+import { AzureKeyCredential, DocumentAnalysisClient } from '@azure/ai-form-recognizer';
 import { ImageAnnotatorClient } from '@google-cloud/vision';
-import dotenv from 'dotenv';
-import path from 'path';
-import pdftopic from 'pdftopic';
-import { error } from 'console';
-import { DocumentAnalysisClient, AzureKeyCredential } from '@azure/ai-form-recognizer';
-import { PrebuiltDocumentModel } from './prebuilt/prebuilt-document';
 import EnvVars from '@src/constants/EnvVars';
 import { NodeEnvs } from '@src/constants/misc';
+import { error } from 'console';
+import dotenv from 'dotenv';
+import * as fs from 'fs';
+import path from 'path';
+import pdf from 'pdf-parse';
+import pdftopic from 'pdftopic';
+import { PrebuiltDocumentModel } from './prebuilt/prebuilt-document';
 
 dotenv.config();
 
 // Supports pdf/jpeg/png/tiff formats
-const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
+const convertHandwrittenFileToTextByAzure = async (filePath: string) => {
   if (![NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
-    await fs.unlink(filePath, () => {
-      console.log(`File ${filePath} deleted`);
-    });
-
     // Dev / Test
     return mockWitnessReport;
   }
+
+  console.log('INSIDE THE FUNC');
 
   const endpoint = process.env.AZURE_COGNITIVE_SERVICES_URL;
   const apiKey = process.env.AZURE_COGNITIVE_SERVICES_API_KEY;
@@ -39,6 +37,8 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
   let textResult = '';
 
   if ([NodeEnvs.Production.valueOf(), NodeEnvs.ProductionLocal.valueOf()].includes(EnvVars.NodeEnv)) {
+    console.log('ITS PROD');
+
     if (!keyValuePairs || keyValuePairs.length <= 0) {
       console.error('No key-value pairs were extracted from the document.');
     } else {
@@ -50,10 +50,6 @@ const convertHandwrittenPdfToTextByAzure = async (filePath: string) => {
     // Dev / Test - Mock
     textResult = mockWitnessReport;
   }
-
-  await fs.unlink(filePath, () => {
-    console.log(`File ${filePath} deleted`);
-  });
 
   return textResult;
 };
@@ -131,7 +127,7 @@ const convertPdfToPng = async (pdfFilePath: string): Promise<string | undefined>
   }
 };
 
-export { convertStandardPdfToText, convertHandwrittenPdfToTextByCloudVision, convertHandwrittenPdfToTextByAzure };
+export { convertHandwrittenFileToTextByAzure, convertHandwrittenPdfToTextByCloudVision, convertStandardPdfToText };
 
 const mockWitnessReport = `"Step by step description leading up to and including the event (specific locations, times, tasks carried out, communications):"
   												"We had moved all equipment to the site in the R30, natural area, set up site and finished installing the PVC pre collor and 

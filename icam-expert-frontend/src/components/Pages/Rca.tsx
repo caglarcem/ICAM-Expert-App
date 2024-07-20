@@ -15,6 +15,8 @@ const Rca: React.FC = () => {
     result = JSON.stringify(reportResults[contextKey]);
   }
 
+  console.log('RCA RESULTS: ');
+
   const parts = result?.split('###');
 
   const summary1 = parts?.length > 0 ? parts[0] : '';
