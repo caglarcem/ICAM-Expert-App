@@ -15,9 +15,9 @@ COPY icam-expert-backend .
 RUN npm run build
 
 # Stage 3: Create the final image with FFmpeg
-FROM node:22-alpine
-# Install FFmpeg
-RUN apk update && apk add --no-cache ffmpeg
+FROM node:22-slim
+# Install FFmpeg and other dependencies
+RUN apt-get update && apt-get install -y ffmpeg && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=frontend-builder /app/frontend/build ./frontend/build
