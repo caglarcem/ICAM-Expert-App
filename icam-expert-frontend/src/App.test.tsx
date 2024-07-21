@@ -47,6 +47,11 @@ describe('App tests', () => {
         </MemoryRouter>
       </ThemeProvider>
     );
+
+    // Expand the Evidence Collection menu
+    const evidenceCollectionButton = screen.getByText(/Evidence Collection/i);
+    fireEvent.click(evidenceCollectionButton);
+
     const interviewLink = screen.getByText(/Follow-up Interview/i);
     expect(interviewLink).toBeInTheDocument();
   });

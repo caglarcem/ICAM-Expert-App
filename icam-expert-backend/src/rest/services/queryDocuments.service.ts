@@ -41,11 +41,11 @@ const queryMultipleDocumentsWithSingleAnswer = async (
       messages: [
         {
           role: 'system',
-          content: `Can you pls act as the lead ICAM investigator with relevant oeprational experience for an incident 
+          content: `Can you please act as the lead ICAM investigator with relevant operational experience for an incident 
 										happened at a queensland open cut coal mine? Your goal is to ensure analysis is comprehensive. Aim 
 										of the ICAM is to ensure learnings are objectively determined. Analyse the data and answer my following 
 										questions. Please do not answer yet until I ask specific questions. On the following questions only use 
-										the information provided in this session. Thank you very much!`,
+										the information provided in this session. Stick to the factual information provided when analysing the incident. Thank you very much!`,
         },
         {
           role: 'user',
