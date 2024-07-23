@@ -42,8 +42,8 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
   const theme = useTheme();
   const location = useLocation();
 
-  const [openEvidenceCollection, setOpenEvidenceCollection] = useState(false);
-  const [openICAMAnalysis, setOpenICAMAnalysis] = useState(false);
+  const [openEvidenceCollection, setOpenEvidenceCollection] = useState(true);
+  const [openICAMAnalysis, setOpenICAMAnalysis] = useState(true);
 
   const handleClickEvidenceCollection = () => {
     setOpenEvidenceCollection(!openEvidenceCollection);
@@ -148,7 +148,7 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
         <img
           src="icam_expert_logo.svg"
           alt="ICAM Expert Logo"
-          style={{ width: 40, height: 40, marginRight: theme.spacing(1) }}
+          style={{ width: 56, height: 56, marginRight: theme.spacing(1) }}
         />
         <Typography
           variant="h6"
