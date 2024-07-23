@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import * as fs from 'fs';
 import OpenAI from 'openai';
 import path from 'path';
+import { QueryParameters } from '../types/types';
 
 dotenv.config();
 
@@ -18,14 +19,14 @@ const readTools = (filePath: string): Tool[] => {
 
 const queryMultipleDocumentsWithSingleAnswer = async (
   documents: string[],
-  toolName: string
+  queryParameters: QueryParameters
 ): Promise<string | undefined> => {
   const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production-local';
   const jsonFilePath = isProduction
     ? path.join(__dirname, '../../', 'tools.json')
     : path.join(__dirname, '../', 'tools.json');
 
-  const tool = readTools(jsonFilePath)?.find(tool => tool.name === toolName);
+  const tool = readTools(jsonFilePath)?.find(tool => tool.name === queryParameters.toolName);
 
   console.log('TOOL: ', tool?.title);
 
@@ -41,11 +42,11 @@ const queryMultipleDocumentsWithSingleAnswer = async (
       messages: [
         {
           role: 'system',
-          content: `Can you pls act as the lead ICAM investigator with relevant oeprational experience for an incident 
-										happened at a queensland open cut coal mine? Your goal is to ensure analysis is comprehensive. Aim 
+          content: `Can you please act as the lead ICAM investigator with relevant operational experience for an incident 
+										happened at a ${queryParameters.settings.state} ${queryParameters.settings.mineType} ${queryParameters.settings.commodity} mine? Your goal is to ensure analysis is comprehensive. Aim 
 										of the ICAM is to ensure learnings are objectively determined. Analyse the data and answer my following 
 										questions. Please do not answer yet until I ask specific questions. On the following questions only use 
-										the information provided in this session. Thank you very much!`,
+										the information provided in this session. Stick to the factual information provided when analysing the incident. Thank you very much!`,
         },
         {
           role: 'user',

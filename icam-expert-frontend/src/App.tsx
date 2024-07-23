@@ -26,9 +26,14 @@ const rightPanelWidth = 300;
 
 const App: React.FC = () => {
   const theme = useTheme();
-  //const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down('lg'));
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [settings, setSettings] = useState({
+    state: 'Queensland',
+    mineType: 'open cut',
+    commodity: 'coal',
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -67,7 +72,7 @@ const App: React.FC = () => {
               <MenuIcon sx={{ fontSize: 'inherit' }} />
             </IconButton>
             <Box sx={{ ml: 2 }}>
-              <UploadPanel />
+              <UploadPanel settings={settings} setSettings={setSettings} />
             </Box>
           </Box>
         </Box>
@@ -100,14 +105,23 @@ const App: React.FC = () => {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/interview" element={<Interview />} />
-          <Route path="/event" element={<Event />} />
-          <Route path="/peepo" element={<Peepo />} />
-          <Route path="/timeline" element={<Timeline />} />
-          <Route path="/icam" element={<Icam />} />
-          <Route path="/contributing" element={<Contributing />} />
-          <Route path="/rca" element={<Rca />} />
-          <Route path="/learnings" element={<Learnings />} />
+          <Route
+            path="/interview"
+            element={<Interview settings={settings} />}
+          />
+          <Route path="/event" element={<Event settings={settings} />} />
+          <Route path="/peepo" element={<Peepo settings={settings} />} />
+          <Route path="/timeline" element={<Timeline settings={settings} />} />
+          <Route path="/icam" element={<Icam settings={settings} />} />
+          <Route
+            path="/contributing"
+            element={<Contributing settings={settings} />}
+          />
+          <Route path="/rca" element={<Rca settings={settings} />} />
+          <Route
+            path="/learnings"
+            element={<Learnings settings={settings} />}
+          />
         </Routes>
       </Box>
       {!isLargeScreen && (
@@ -131,7 +145,7 @@ const App: React.FC = () => {
               padding: 2,
             }}
           >
-            <UploadPanel />
+            <UploadPanel settings={settings} setSettings={setSettings} />
           </Box>
         </Drawer>
       )}

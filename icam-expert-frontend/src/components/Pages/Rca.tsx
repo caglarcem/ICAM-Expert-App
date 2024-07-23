@@ -4,8 +4,9 @@ import { useReportResult } from '../../context/ReportResultProvider';
 import RcaSummary from '../formatters/RcaSummary';
 import RcaTable from '../formatters/jsonToTable/RcaTable';
 import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
+import { PromptSettings } from './PromptSettings';
 
-const Rca: React.FC = () => {
+const Rca: React.FC<PromptSettings> = ({ settings }) => {
   const contextKey = 'rca';
 
   const { reportResults } = useReportResult();
@@ -15,8 +16,6 @@ const Rca: React.FC = () => {
     result = JSON.stringify(reportResults[contextKey]);
   }
 
-  console.log('RCA RESULTS: ');
-
   const parts = result?.split('###');
 
   const summary1 = parts?.length > 0 ? parts[0] : '';
@@ -24,10 +23,12 @@ const Rca: React.FC = () => {
   const summary2 = parts?.length > 2 ? parts[2] : '';
   const tableJson2 = parts?.length > 3 ? parts[3] : '';
 
+  const apiEndpoint = `/queryDocuments/report?tool=root-cause-analysis&state=${settings.state}&minetype=${settings.mineType}&commodity=${settings.commodity}`;
+
   return (
     <IcamToolsBaseComponent
       description="List Absent / Failed Defences, Individual /Team Actions, Task / Environmental Conditions, and Organisational factors in a table format. Select Files and press submit."
-      apiEndpoint="/queryDocuments/report?tool=root-cause-analysis"
+      apiEndpoint={apiEndpoint}
       contextKey={contextKey}
     >
       <Stack>
