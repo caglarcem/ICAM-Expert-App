@@ -71,7 +71,7 @@ const Home: React.FC = () => {
                   imageUrl="/incident-icon.svg"
                   title="Incident"
                   description="Incident requires data collection"
-                  height={200}
+                  height={250}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -79,7 +79,7 @@ const Home: React.FC = () => {
                   imageUrl="/evidence-icon.svg"
                   title="Evidence Collection"
                   description="ICAM expert helps with evidence collection and PEEPO generation"
-                  height={240}
+                  height={250}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -87,7 +87,7 @@ const Home: React.FC = () => {
                   imageUrl="/icam-icon.svg"
                   title="ICAM Analysis"
                   description="Built in tools help you work through step by step utilising latest generative AI to draft you ICAM analysis"
-                  height={280}
+                  height={250}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -95,14 +95,14 @@ const Home: React.FC = () => {
                   imageUrl="/report-icon.svg"
                   title="Review and Report"
                   description="ICAM Expert's outputs are easy to copy and paste to your ICAM report template to edit and finalise"
-                  height={260}
+                  height={250}
                 />
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
         <Button
           variant="contained"
           color="primary"
