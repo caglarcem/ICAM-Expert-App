@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Contributing from './components/Pages/Contributing';
 import Event from './components/Pages/Event';
@@ -34,6 +34,23 @@ const App: React.FC = () => {
     mineType: 'open cut',
     commodity: 'coal',
   });
+
+  useEffect(() => {
+    const handleUnload = () => {
+      const apiBaseURL =
+        process.env.REACT_APP_ICAM_API_URL ||
+        `${window.location.protocol}//${window.location.host}/api`;
+
+      //more reliable while sending request on unload
+      navigator.sendBeacon(`${apiBaseURL}/client-disconnected`);
+    };
+
+    window.addEventListener('unload', handleUnload);
+
+    return () => {
+      window.removeEventListener('unload', handleUnload);
+    };
+  }, [settings]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
