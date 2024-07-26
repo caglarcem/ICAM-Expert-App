@@ -47,7 +47,7 @@ const UploadPanel: React.FC<UploadPanelProps> = ({ settings, setSettings }) => {
     setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
   };
 
-  const viewerFileTypes = ['.pdf', '.jpg', '.jpeg', '.png', '.tiff'];
+  const viewerFileTypes = ['.pdf', '.jpg', '.jpeg', '.png', '.tiff', '.docx'];
   const audioFileTypes = ['.wav', '.ogg', '.mp3', '.flac', '.amr'];
   const videoFileTypes = [
     '.mp4',
