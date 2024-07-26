@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -6,10 +7,11 @@ import {
   CardMedia,
   Divider,
   Grid,
+  TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface IcamCardProps {
   imageUrl: string;
@@ -19,6 +21,24 @@ interface IcamCardProps {
 }
 
 const Home: React.FC = () => {
+  const [trialCode, setTrialCode] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const correctCode = 'iCAM-P@S5'; // Fixed trial code
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTrialCode(event.target.value);
+  };
+
+  const handleButtonClick = () => {
+    if (trialCode === correctCode) {
+      setError('');
+      navigate('/interview'); // Navigate to the desired page
+    } else {
+      setError('Invalid trial code. Please try again.');
+    }
+  };
+
   return (
     <>
       <Box sx={{ padding: 2 }}>
@@ -102,12 +122,31 @@ const Home: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          mt: 4,
+        }}
+      >
+        <TextField
+          label="Enter Trial Code"
+          variant="outlined"
+          value={trialCode}
+          onChange={handleInputChange}
+          sx={{ mb: 0, mt: 0, width: '250px', height: '60px' }}
+        />
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
         <Button
           variant="contained"
           color="primary"
-          component={Link}
-          to="/interview"
+          onClick={handleButtonClick}
+          sx={{ mt: 4 }}
         >
           Get Started
         </Button>
