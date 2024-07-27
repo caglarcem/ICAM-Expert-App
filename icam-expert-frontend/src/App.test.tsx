@@ -35,6 +35,35 @@ describe('App tests', () => {
     expect(titleElement).toBeInTheDocument();
   });
 
+  test('should not navigate to the app with the wrong trial code', () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <MemoryRouter initialEntries={['/']}>
+          <FileProvider>
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
+          </FileProvider>
+        </MemoryRouter>
+      </ThemeProvider>
+    );
+
+    // Enter the app from the main page
+    // Find the trial code input and enter the correct code
+    const trialCodeInput = screen.getByLabelText(/Enter Trial Code/i);
+    fireEvent.change(trialCodeInput, { target: { value: 'incorrect-pass' } });
+
+    // Click the "Get Started" button
+    const getStartedButton = screen.getByText(/Get Started/i);
+    fireEvent.click(getStartedButton);
+
+    // Should show error message and not navigate
+    expect(screen.getByText(/Invalid trial code/i)).toBeInTheDocument();
+
+    // Check that the navigation to the interview page did not occur
+    expect(screen.queryByText(/Interview/i)).not.toBeInTheDocument();
+  });
+
   test('should render Follow-up Interview link in the menu', () => {
     render(
       <ThemeProvider theme={theme}>
@@ -48,11 +77,21 @@ describe('App tests', () => {
       </ThemeProvider>
     );
 
+    // Enter the app from the main page
+    // Find the trial code input and enter the correct code
+    const trialCodeInput = screen.getByLabelText(/Enter Trial Code/i);
+    fireEvent.change(trialCodeInput, { target: { value: 'iCAM-P@S5' } });
+
+    // Click the "Get Started" button
+    const getStartedButton = screen.getByText(/Get Started/i);
+    fireEvent.click(getStartedButton);
+
     // Expand the Evidence Collection menu
-    const evidenceCollectionButton = screen.getByText(/Evidence Collection/i);
+    const evidenceCollectionButton =
+      screen.getAllByText(/Evidence Collection/i)[0];
     fireEvent.click(evidenceCollectionButton);
 
-    const interviewLink = screen.getByText(/Follow-up Interview/i);
+    const interviewLink = screen.getAllByText(/Follow-up Interview/i)[0];
     expect(interviewLink).toBeInTheDocument();
   });
 
@@ -68,6 +107,16 @@ describe('App tests', () => {
         </MemoryRouter>
       </ThemeProvider>
     );
+
+    // Enter the app from the main page
+    // Find the trial code input and enter the correct code
+    const trialCodeInput = screen.getByLabelText(/Enter Trial Code/i);
+    fireEvent.change(trialCodeInput, { target: { value: 'iCAM-P@S5' } });
+
+    // Click the "Get Started" button
+    const getStartedButton = screen.getByText(/Get Started/i);
+    fireEvent.click(getStartedButton);
+
     const uploadButton = screen.getByTestId('select-files-button');
     expect(uploadButton).toBeInTheDocument();
   });
@@ -84,6 +133,15 @@ describe('App tests', () => {
         </MemoryRouter>
       </ThemeProvider>
     );
+
+    // Enter the app from the main page
+    // Find the trial code input and enter the correct code
+    const trialCodeInput = screen.getByLabelText(/Enter Trial Code/i);
+    fireEvent.change(trialCodeInput, { target: { value: 'iCAM-P@S5' } });
+
+    // Click the "Get Started" button
+    const getStartedButton = screen.getByText(/Get Started/i);
+    fireEvent.click(getStartedButton);
 
     const fileInput = screen.getByTestId('file-input');
     const file = new File(['dummy content'], 'example.pdf', {
