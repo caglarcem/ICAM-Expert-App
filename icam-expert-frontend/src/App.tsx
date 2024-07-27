@@ -8,7 +8,7 @@ import {
   useTheme,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Contributing from './components/Pages/Contributing';
 import Event from './components/Pages/Event';
 import Home from './components/Pages/Home';
@@ -34,6 +34,9 @@ const App: React.FC = () => {
     mineType: 'open cut',
     commodity: 'coal',
   });
+
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleUnload = () => {
@@ -65,7 +68,7 @@ const App: React.FC = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <CssBaseline />
-      {isLargeScreen && (
+      {!isHomePage && isLargeScreen && (
         <Box
           sx={{
             display: 'flex',
@@ -94,30 +97,39 @@ const App: React.FC = () => {
           </Box>
         </Box>
       )}
-      <Drawer
-        variant={isLargeScreen ? 'temporary' : 'permanent'}
-        open={isLargeScreen ? mobileOpen : true}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        sx={{
-          display: { xs: 'block', md: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-        }}
-      >
-        <Menu onMenuItemClick={handleMenuItemClick} />
-      </Drawer>
+      {!isHomePage && (
+        <Drawer
+          variant={isLargeScreen ? 'temporary' : 'permanent'}
+          open={isLargeScreen ? mobileOpen : true}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', md: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+        >
+          <Menu onMenuItemClick={handleMenuItemClick} />
+        </Drawer>
+      )}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           bgcolor: 'background.default',
           padding: '50px',
-          marginLeft: { md: `${drawerWidth}px` },
-          marginRight: { md: `${rightPanelWidth}px` },
+          marginLeft: { md: !isHomePage ? `${drawerWidth}px` : '0' },
+          marginRight: { md: !isHomePage ? `${rightPanelWidth}px` : '0' },
           marginTop: { xs: '56px', md: '0' },
-          width: { md: `calc(100% - ${drawerWidth}px - ${rightPanelWidth}px)` },
+          width: {
+            md: !isHomePage
+              ? `calc(100% - ${drawerWidth}px - ${rightPanelWidth}px)`
+              : '100%',
+          },
         }}
       >
         <Routes>
@@ -141,7 +153,7 @@ const App: React.FC = () => {
           />
         </Routes>
       </Box>
-      {!isLargeScreen && (
+      {!isHomePage && !isLargeScreen && (
         <Drawer
           sx={{
             width: rightPanelWidth,

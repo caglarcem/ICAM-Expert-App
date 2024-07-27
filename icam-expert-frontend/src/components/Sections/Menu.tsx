@@ -66,7 +66,6 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
   };
 
   const menuItems = [
-    { path: '/', title: 'Home' },
     { path: '/event', title: 'Event Description', group: 'ICAM Analysis' },
     {
       path: '/interview',
@@ -162,47 +161,34 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
         </Typography>
       </Box>
       <List sx={{ marginTop: '20px' }}>
-        {menuItems
-          .filter(item => !item.group)
-          .map(item => (
-            <StyledListItemButton
-              key={item.path}
-              to={item.path}
-              onClick={onMenuItemClick}
-              sx={{
-                backgroundColor:
-                  location.pathname === item.path
-                    ? theme.palette.action.hover
-                    : 'inherit',
-                borderBottom:
-                  location.pathname === item.path
-                    ? '1px solid rgb(156, 39, 176)'
-                    : '1px solid #f0f0f0',
-                '&:hover': {
-                  backgroundColor: theme.palette.action.hover,
-                },
-                '&::after': {
-                  content: '""',
-                  display: location.pathname === item.path ? 'block' : 'none',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '1px',
-                  backgroundColor: 'rgb(156, 39, 176)',
-                },
-              }}
-            >
-              <ListItemText
-                primary={item.title}
-                primaryTypographyProps={
-                  location.pathname === item.path
-                    ? selectedMenuItemCss
-                    : menuItemCss
-                }
-              />
-            </StyledListItemButton>
-          ))}
+        <StyledListItemButton
+          key="/"
+          to="/"
+          onClick={onMenuItemClick}
+          sx={{
+            backgroundColor:
+              location.pathname === '/'
+                ? theme.palette.action.hover
+                : 'inherit',
+            borderBottom:
+              location.pathname === '/'
+                ? '1px solid rgb(156, 39, 176)'
+                : '1px solid #f0f0f0',
+            '&:hover': {
+              backgroundColor: theme.palette.action.hover,
+            },
+            '&::after': {
+              content: '""',
+              display: location.pathname === '/' ? 'block' : 'none',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              width: '100%',
+              height: '1px',
+              backgroundColor: 'rgb(156, 39, 176)',
+            },
+          }}
+        ></StyledListItemButton>
         <ListItemButton
           onClick={handleClickEvidenceCollection}
           sx={{
