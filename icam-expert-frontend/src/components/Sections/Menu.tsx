@@ -162,16 +162,16 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
       </Box>
       <List sx={{ marginTop: '20px' }}>
         <StyledListItemButton
-          key="/"
-          to="/"
+          key="/home"
+          to="/home"
           onClick={onMenuItemClick}
           sx={{
             backgroundColor:
-              location.pathname === '/'
+              location.pathname === '/home'
                 ? theme.palette.action.hover
                 : 'inherit',
             borderBottom:
-              location.pathname === '/'
+              location.pathname === '/home'
                 ? '1px solid rgb(156, 39, 176)'
                 : '1px solid #f0f0f0',
             '&:hover': {
@@ -179,7 +179,7 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
             },
             '&::after': {
               content: '""',
-              display: location.pathname === '/' ? 'block' : 'none',
+              display: location.pathname === '/home' ? 'block' : 'none',
               position: 'absolute',
               bottom: 0,
               left: 0,
@@ -188,7 +188,14 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
               backgroundColor: 'rgb(156, 39, 176)',
             },
           }}
-        ></StyledListItemButton>
+        >
+          <ListItemText
+            primary="Home"
+            primaryTypographyProps={
+              location.pathname === '/home' ? selectedMenuItemCss : menuItemCss
+            }
+          />
+        </StyledListItemButton>
         <ListItemButton
           onClick={handleClickEvidenceCollection}
           sx={{

@@ -11,9 +11,10 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Contributing from './components/Pages/Contributing';
 import Event from './components/Pages/Event';
-import Home from './components/Pages/Home';
+import Home from './components/Pages/Home'; // Import your Home component
 import Icam from './components/Pages/Icam';
 import Interview from './components/Pages/Interview';
+import LandingPage from './components/Pages/LandingPage';
 import Learnings from './components/Pages/Learnings';
 import Peepo from './components/Pages/Peepo';
 import Rca from './components/Pages/Rca';
@@ -133,7 +134,8 @@ const App: React.FC = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
           <Route
             path="/interview"
             element={<Interview settings={settings} />}
