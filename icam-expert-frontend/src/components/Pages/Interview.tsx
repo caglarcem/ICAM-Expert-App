@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
 import React from 'react';
 import { useReportResult } from '../../context/ReportResultProvider';
-import InterviewSummary from '../formatters/InterviewSummary';
 import InterviewTable from '../formatters/jsonToTable/InterviewTable';
 import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { PromptSettings } from './PromptSettings';
@@ -15,11 +14,6 @@ const Interview: React.FC<PromptSettings> = ({ settings }) => {
     result = JSON.stringify(reportResults[contextKey]);
   }
 
-  const parts = result?.split('###');
-
-  const summary = parts?.length > 0 ? parts[0] : '';
-  const tableJson = parts?.length > 1 ? parts[1] : '';
-
   const apiEndpoint = `/queryDocuments/report?tool=generate-follow-up-interview-questions&state=${settings.state}&minetype=${settings.mineType}&commodity=${settings.commodity}`;
 
   return (
@@ -29,8 +23,7 @@ const Interview: React.FC<PromptSettings> = ({ settings }) => {
       contextKey={contextKey}
     >
       <Stack>
-        <InterviewSummary text={summary} />
-        <InterviewTable text={tableJson} />
+        <InterviewTable text={result} />
       </Stack>
     </IcamToolsBaseComponent>
   );

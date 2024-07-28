@@ -66,13 +66,18 @@ const Menu: React.FC<MenuProps> = ({ onMenuItemClick }) => {
   };
 
   const menuItems = [
-    { path: '/event', title: 'Event Description', group: 'ICAM Analysis' },
+    {
+      path: '/discrepancies',
+      title: 'Discrepancy Analysis',
+      group: 'Evidence Collection',
+    },
     {
       path: '/interview',
       title: 'Follow-up Interview',
       group: 'Evidence Collection',
     },
     { path: '/peepo', title: 'PEEPO Builder', group: 'Evidence Collection' },
+    { path: '/event', title: 'Event Description', group: 'ICAM Analysis' },
     { path: '/timeline', title: 'Timeline Builder', group: 'ICAM Analysis' },
     { path: '/icam', title: 'ICAM Table', group: 'ICAM Analysis' },
     {
