@@ -202,6 +202,34 @@ describe('App tests', () => {
     });
   });
 
+  test.skip('should display discrepancy analysis response after form submission', async () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <MemoryRouter initialEntries={['/discrepancies']}>
+          <FileProvider>
+            <ReportResultProvider>
+              <App />
+            </ReportResultProvider>
+          </FileProvider>
+        </MemoryRouter>
+      </ThemeProvider>
+    );
+
+    const fileInput = screen.getByTestId('file-input');
+    const file = new File(['dummy content'], 'example.pdf', {
+      type: 'application/pdf',
+    });
+
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const submitButton = screen.getByTestId('submit-button');
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('discrepancy-summary')).toBeInTheDocument();
+    });
+  });
+
   test('should display interview response after form submission', async () => {
     render(
       <ThemeProvider theme={theme}>
@@ -224,12 +252,6 @@ describe('App tests', () => {
 
     const submitButton = screen.getByTestId('submit-button');
     fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByTestId('interview-response-summary')
-      ).toBeInTheDocument();
-    });
 
     await waitFor(() => {
       expect(

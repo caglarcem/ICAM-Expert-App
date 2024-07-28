@@ -1,6 +1,6 @@
 import React from 'react';
 import { useReportResult } from '../../context/ReportResultProvider';
-import InterviewSummary from '../formatters/InterviewSummary';
+import DiscrepancySummary from '../formatters/DiscrepancySummary';
 import IcamToolsBaseComponent from './Base/IcamToolsBaseComponent';
 import { PromptSettings } from './PromptSettings';
 
@@ -18,7 +18,7 @@ const Discrepancies: React.FC<PromptSettings> = ({ settings }) => {
       apiEndpoint={apiEndpoint}
       contextKey={contextKey}
     >
-      {result && <InterviewSummary text={result} />}
+      {result && <DiscrepancySummary text={result} />}
     </IcamToolsBaseComponent>
   );
 };

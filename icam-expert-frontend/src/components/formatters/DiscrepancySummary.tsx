@@ -6,7 +6,7 @@ interface InterviewSummaryProps {
   text: string;
 }
 
-const InterviewSummary: React.FC<InterviewSummaryProps> = ({ text }) => {
+const DiscrepancySummary: React.FC<InterviewSummaryProps> = ({ text }) => {
   const parseText = (input: string) => {
     if (!input) return <></>;
 
@@ -102,7 +102,7 @@ const InterviewSummary: React.FC<InterviewSummaryProps> = ({ text }) => {
     return parsedSegments;
   };
 
-  return <Box data-testid="interview-response-summary">{parseText(text)}</Box>;
+  return <Box data-testid="discrepancy-summary">{parseText(text)}</Box>;
 };
 
-export default InterviewSummary;
+export default DiscrepancySummary;
